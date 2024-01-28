@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image Grabber</title>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <body class="m-0 p-6 text-sm bg-green-100 grid gap-2">
+        <input
+            type="file"
+            id="fileInput"
+        />
+        <div class="grid grid-cols-2 gap-2">
+            <input 
+                type="text"
+                placeholder="Width"
+                id="width"
+                class="px-2 py-1 rounded"
+            />
+            <input 
+                type="text"
+                placeholder="Height"
+                id="height"
+                class="px-2 py-1 rounded"
+            />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <input 
+                type="text"
+                placeholder="Left Position"
+                id="left"
+                class="px-2 py-1 rounded"
+            />
+            <input 
+                type="text"
+                placeholder="Top Position"
+                id="top"
+                class="px-2 py-1 rounded"
+            />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <input 
+                type="text"
+                placeholder="Opacity"
+                id="opacity"
+                class="px-2 py-1 rounded"
+            />
+            <input 
+                type="number"
+                placeholder="Z-Index"
+                id="zIndex"
+                class="px-2 py-1 rounded"
+            />
+        </div>
+        <button id="saveBtn" class="px-4 py-1 rounded bg-red-500 text-white shadow uppercase"> 
+            Save
+        </button>
+
+        <script src="./popup.js"></script>
+    </body>
+</html>
