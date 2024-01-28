@@ -7,14 +7,16 @@ const ref = (obj) => new Proxy(obj, {
 })
 const imageData = {
     img: null,
-    width: "100%",
-    height: "100%",
+    width: "auto",
+    height: "auto",
     left: 0,
     top: 0,
     opacity: 0.5,
     showImage: true,
     fileInput: null,
-    zIndex: 1000
+    zIndex: 1000,
+    isLock: true,
+    isShow: true,
 }
 
 
@@ -49,6 +51,16 @@ const elements = [
         key: 'zIndex',
         element: document.getElementById('zIndex')
     },
+    {
+        key: 'isLock',
+        element: document.getElementById('isLock'),
+        toggleAble: true
+    },
+    {
+        key: 'isShow',
+        element: document.getElementById('isShow'),
+        toggleAble: true
+    },
 ]
 
 elements.forEach((data) => {
@@ -63,6 +75,16 @@ elements.forEach((data) => {
                 }
                 return
             }
+            if(data.toggleAble){
+                if(data.element.firstElementChild.checked){
+                    imageData[data.key] = 1
+                }else{
+                    imageData[data.key] = 0
+                }
+                runChromeScript()
+                return
+            }
+
             imageData[data.key] = data.element.value
             runChromeScript()
         })
@@ -70,6 +92,7 @@ elements.forEach((data) => {
 })
 
 saveBtn.addEventListener("click", runChromeScript)
+
 function runChromeScript () { 
     chrome.tabs.query({active: true}, function(tabs) {
         var tab = tabs[0];
@@ -80,16 +103,12 @@ function runChromeScript () {
                     func: runScript,
                     args: [imageData]
                 },
-                onResult
+                // onResult
             )
         } else {
             alert("There are no active tabs")
         }
     })
-}
-
-function onResult(frames) {
-    console.log({frames})
 }
 
 function runScript (imageData) 
@@ -116,7 +135,8 @@ function runScript (imageData)
             opacity: ${imageData.opacity};
             z-index: ${imageData.zIndex};
             position: fixed;
-            pointer-events: none;
+            pointer-events: ${imageData.isLock ? 'none' : 'auto'};
+            display: ${imageData.isShow? '' : 'none'};
         `
     }
     renderNewData(imageData)
