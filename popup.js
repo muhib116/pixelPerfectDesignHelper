@@ -1,143 +1,69 @@
-const ref = (obj) => new Proxy(obj, {
-    get: {},
-    set: (target, key, value) => {
-        target[key] = value
-        runChromeScript()
+import { ref } from 'vue'
+
+export const useConfig = () => {
+    const placeholderConfig = {
+        img: null,
+        width: null,
+        height: null,
+        left: 0,
+        top: 0,
+        opacity: 0.5,
+        showImage: true,
+        fileInput: null,
+        zIndex: 1000,
+        isLock: false,
+        isShow: true,
     }
-})
-const imageData = {
-    img: null,
-    width: "auto",
-    height: "auto",
-    left: 0,
-    top: 0,
-    opacity: 0.5,
-    showImage: true,
-    fileInput: null,
-    zIndex: 1000,
-    isLock: true,
-    isShow: true,
-}
+    const layoutData = ref({
+        activeIndex: 0,
+        config: []
+    })
+    const addNewLayout = (element) => {
+        layoutData.value.config.unshift({...placeholderConfig})
+        runChromeScript(layoutData.value)
+        if(element[0]){
+            element[0].click()
+        }
+    }
+    const deleteLayout = (index, layoutData) => {
+        if(!confirm('Are you sure you want to delete this layout?')) return
+        layoutData.config.splice(index, 1)
+        runChromeScript(layoutData)
+    }
 
-
-
-const saveBtn = document.getElementById('saveBtn')
-const elements = [
+    const resetConfiguration = () => {
+        if(!confirm('Are you sure you want to reset your configuration')) return
+        layoutData.value.activeIndex = 0
+        layoutData.value.config = [{...placeholderConfig}]
+        runChromeScript(layoutData.value)
+    }
+    
+    const runChromeScript = (layoutData) => 
     {
-        key: 'fileInput',
-        element: document.getElementById('fileInput')
-    },
-    {
-        key: 'width',
-        element: document.getElementById('width')
-    },
-    {
-        key: 'height',
-        element: document.getElementById('height')
-    },
-    {
-        key: 'left',
-        element: document.getElementById('left')
-    },
-    {
-        key: 'top',
-        element: document.getElementById('top')
-    },
-    {
-        key: 'opacity',
-        element: document.getElementById('opacity')
-    },
-    {
-        key: 'zIndex',
-        element: document.getElementById('zIndex')
-    },
-    {
-        key: 'isLock',
-        element: document.getElementById('isLock'),
-        toggleAble: true
-    },
-    {
-        key: 'isShow',
-        element: document.getElementById('isShow'),
-        toggleAble: true
-    },
-]
-
-elements.forEach((data) => {
-    if(data.element){
-        data.element.addEventListener('input', () => {
-            if(data.key == 'fileInput'){
-                const reader = new FileReader()
-                reader.readAsDataURL(data.element.files[0])
-                reader.onload = (e) => {
-                    imageData.fileInput = e.target.result
-                    runChromeScript()
-                }
-                return
-            }
-            if(data.toggleAble){
-                if(data.element.firstElementChild.checked){
-                    imageData[data.key] = 1
-                }else{
-                    imageData[data.key] = 0
-                }
-                runChromeScript()
-                return
-            }
-
-            imageData[data.key] = data.element.value
-            runChromeScript()
+        chrome.runtime.sendMessage({
+            type: 'layoutData',
+            data: layoutData
         })
     }
-})
 
-saveBtn.addEventListener("click", runChromeScript)
 
-function runChromeScript () { 
-    chrome.tabs.query({active: true}, function(tabs) {
-        var tab = tabs[0];
-        if (tab) {
-            chrome.scripting.executeScript(
-                {
-                    target:{tabId: tab.id, allFrames: true},
-                    func: runScript,
-                    args: [imageData]
-                },
-                // onResult
-            )
-        } else {
-            alert("There are no active tabs")
+    //receive data from background script
+    chrome.runtime.onMessage.addListener((request) => {
+        console.log(request, 'request')
+        if(request.type == "updatedActiveLayoutData")
+        {
+            const activeLayout = layoutData.value.config[layoutData.value.activeIndex]
+            activeLayout.left = request.data.left
+            activeLayout.top = request.data.top
         }
     })
-}
 
-function runScript (imageData) 
-{
-    function handleImage(imageData)
-    {
-        imageData.img = document.getElementById('_overlayImage_pixelPerfect')
-        if(!imageData.img){
-            imageData.img = document.createElement('img')
-            if(!imageData.fileInput) return
-            imageData.img.src = imageData.fileInput
-            imageData.img.setAttribute('id', '_overlayImage_pixelPerfect')
-            document.body.appendChild(imageData.img)
-        }
+    
+    return {
+        layoutData,
+        deleteLayout,
+        addNewLayout,
+        resetConfiguration,
+        runChromeScript
     }
-    handleImage(imageData)
-
-    function renderNewData(imageData) {
-        imageData.img.style.cssText = `
-            width: ${imageData.width};
-            height: ${imageData.height};
-            left: ${imageData.left};
-            top: ${imageData.top};
-            opacity: ${imageData.opacity};
-            z-index: ${imageData.zIndex};
-            position: fixed;
-            pointer-events: ${imageData.isLock ? 'none' : 'auto'};
-            display: ${imageData.isShow? '' : 'none'};
-        `
-    }
-    renderNewData(imageData)
 }
