@@ -1,8 +1,8 @@
-const { ref } = Vue
+const { ref, computed, watch, createApp, onMounted } = Vue
 
 const storageKey = '_pixelPerfectLayoutData'
 const placeholderConfig = {
-    img: null,
+    imgElement: null,
     fileInput: null,
     src: null,
     width: null,
@@ -20,11 +20,13 @@ const placeholderConfig = {
 const layoutData = ref({
     activeIndex: 0,
     isCollapsed: false,
+    imgElement: null,
     config: []
 })
 
 const start = () => {
     loadFromLocalStorage()
+    printImageInDOM(layoutData.value)
 }
 
 
@@ -32,15 +34,17 @@ const start = () => {
 const handleCollapse = () => {
     layoutData.value.isCollapsed = !layoutData.value.isCollapsed
 }
-
 const handleShowForActiveLayout = () => {
     layoutData.value.config[layoutData.value.activeIndex].isShow = !layoutData.value.config[layoutData.value.activeIndex].isShow
+    printImageInDOM(layoutData.value)
 }
 const handleLockForActiveLayout = () => {
     layoutData.value.config[layoutData.value.activeIndex].isLock = !layoutData.value.config[layoutData.value.activeIndex].isLock
+    printImageInDOM(layoutData.value)
 }
 const handleInvertImageForActiveLayout = () => {
     layoutData.value.config[layoutData.value.activeIndex].invertImage = !layoutData.value.config[layoutData.value.activeIndex].invertImage
+    printImageInDOM(layoutData.value)
 }
 // topBar action handler end
 
@@ -48,12 +52,17 @@ const handleInvertImageForActiveLayout = () => {
 
 const addNewLayout = () => {
     layoutData.value.config.unshift({...placeholderConfig})
+    printImageInDOM(layoutData.value)
 }
 const deleteLayout = (index, layoutData) => {
     if(!confirm('Are you sure you want to delete this layout?')) return
     layoutData.config.splice(index, 1)
+    layoutData.activeIndex = (index - 1) >= 0 ? index - 1 : 0
 }
-
+const setActiveIndex = (index) => {
+    layoutData.value.activeIndex = index
+    printImageInDOM(layoutData.value)
+}
 
 
 // localStorage methods start
@@ -69,3 +78,77 @@ const deleteInLocalStorage = () => {
     localStorage.clear(storageKey)
 }
 // localStorage methods end
+
+
+
+// print image to DOM start
+const printImageInDOM = (layoutData) => 
+{
+    const activeLayoutData = layoutData.config[layoutData.activeIndex]
+    layoutData.imgElement = document.getElementById('_overlayImage_pixelPerfect')
+    
+    if(!activeLayoutData) {
+        layoutData?.imgElement?.remove()
+        return
+    }
+    
+    if(!layoutData.imgElement){
+        layoutData.imgElement = document.createElement('img')
+    }
+
+    layoutData.imgElement.src = activeLayoutData.src
+    layoutData.imgElement.setAttribute('id', '_overlayImage_pixelPerfect')
+    layoutData.imgElement.setAttribute('draggable', 'false')
+    document.body.appendChild(layoutData.imgElement)
+
+    imageStyleAdd(layoutData.imgElement, activeLayoutData)
+    
+    let isMouseDown = false
+    let mouseDownPosition = { x: 0, y: 0}
+    let distance = { x: 0, y: 0 }
+
+    layoutData.imgElement.onmousedown = function(e) {
+        mouseDownPosition.x = e.clientX
+        mouseDownPosition.y = e.clientY
+        isMouseDown = true
+    }
+    
+    layoutData.imgElement.onmousemove = function(e) {
+        if (!isMouseDown) return
+    
+        distance.x = e.clientX - mouseDownPosition.x
+        distance.y = e.clientY - mouseDownPosition.y
+    
+        activeLayoutData.left = Number(activeLayoutData.left) + Number(distance.x)
+        activeLayoutData.top  = Number(activeLayoutData.top ) + Number(distance.y)
+    
+        layoutData.imgElement.style.left = activeLayoutData.left + 'px'
+        layoutData.imgElement.style.top  = activeLayoutData.top + 'px'
+    
+        // Update the mouseDownPosition for the next move
+        mouseDownPosition.x = e.clientX
+        mouseDownPosition.y = e.clientY
+    }
+    
+    window.onmouseup = function() {
+        isMouseDown = false
+        // send data to background script
+        storeInLocalStorage(layoutData)
+    }
+}
+const imageStyleAdd = (imgElement, activeLayoutData) => {
+    imgElement.style.cssText = `
+        width: ${activeLayoutData.width}px;
+        height: ${activeLayoutData.height}px;
+        left: ${activeLayoutData.left}px;
+        top: ${activeLayoutData.top}px;
+        opacity: ${activeLayoutData.opacity};
+        z-index: ${activeLayoutData.zIndex};
+        position: fixed;
+        pointer-events: ${activeLayoutData.isLock ? 'none' : 'auto'};
+        cursor: ${activeLayoutData.isLock ? 'none' : 'move'};
+        display: ${activeLayoutData.isShow ? '' : 'none'};
+        filter: invert(${Number(activeLayoutData.invertImage)});
+    `
+}
+// print image to DOM end

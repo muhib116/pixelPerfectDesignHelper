@@ -43,47 +43,63 @@ const Input = {
         </label>
     `
 }
-
 // basic component end
 
 
 
 const Header = {
+    props: [
+      'mouseDown',
+      'mouseMove',
+      'mouseUp',
+      'activeLayout'
+    ],
     setup(){
         return {
             handleCollapse,
             handleShowForActiveLayout,
             handleInvertImageForActiveLayout,
-            handleLockForActiveLayout
+            handleLockForActiveLayout,
+            layoutData
         }
     },
     template: `
         <div class="bg-red-500 grid grid-cols-4">
-            <button 
+            <button
                 @click="handleCollapse"
                 title="Collapse"
-                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 hover:bg-white hover:text-red-500 duration-300"
+                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 hover:bg-white/10 duration-300"
+                :class="!layoutData?.isCollapsed ? 'bg-white text-red-500' : 'text-white'"
             >
-                <svg class="w-4 h-4" width="800" height="800" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" class="clr-i-outline clr-i-outline-path-1" d="M29.52 22.52 18 10.6 6.48 22.52a1.7 1.7 0 0 0 2.45 2.36L18 15.49l9.08 9.39a1.7 1.7 0 0 0 2.45-2.36Z"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                <svg
+                    class="w-4 h-4 transform"
+                    :class="layoutData?.isCollapsed ? 'rotate-0' : 'rotate-180'"
+                    width="800"
+                    height="800"
+                    viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" class="clr-i-outline clr-i-outline-path-1" d="M29.52 22.52 18 10.6 6.48 22.52a1.7 1.7 0 0 0 2.45 2.36L18 15.49l9.08 9.39a1.7 1.7 0 0 0 2.45-2.36Z"/><path fill="none" d="M0 0h36v36H0z"
+                /></svg>
             </button>
             <button
-                title="Show or Hide"
+                :title="activeLayout?.isShow ? 'Hide Image' : 'Show Image'"
                 @click="handleShowForActiveLayout"
-                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 hover:bg-white hover:text-red-500 duration-300"
+                class="p-2 flex justify-center  border-r border-white border-opacity-30 hover:bg-white/10 duration-300"
+                :class="!activeLayout?.isShow ? 'bg-white text-red-500' : 'text-white'"
             >
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="800" height="800" fill="currentColor" viewBox="0 0 52 52" xml:space="preserve"><path d="M51.8 25.1c-1.6-3.2-3.7-6.1-6.3-8.4L37 25.1v.9c0 6.1-4.9 11-11 11h-.9l-5.4 5.4c2 .4 4.1.7 6.2.7 11.3 0 21.1-6.6 25.8-16.1.4-.7.4-1.3.1-1.9zM48.5 5.6l-2.1-2.1c-.6-.6-1.7-.5-2.4.3l-7.3 7.3C33.4 9.7 29.8 9 26 9 14.7 9 4.9 15.6.2 25.1c-.3.6-.3 1.3 0 1.8 2.2 4.5 5.5 8.2 9.6 11l-6 6.1c-.7.7-.8 1.8-.3 2.4l2.1 2.1c.6.6 1.7.5 2.4-.3L48.2 8c.8-.7.9-1.8.3-2.4zM15 26c0-6.1 4.9-11 11-11 2 0 3.8.5 5.4 1.4l-3 3c-.8-.2-1.6-.4-2.4-.4-3.9 0-7 3.1-7 7 0 .8.2 1.6.4 2.4l-3 3C15.5 29.8 15 28 15 26z"/></svg>
             </button>
             <button
                 @click="handleLockForActiveLayout"
-                title="Lock or Unlock"
-                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 hover:bg-white hover:text-red-500 duration-300"
+                :title="activeLayout?.isLock ? 'Unlock Move' : 'Lock Move'"
+                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 hover:bg-white/10 duration-300"
+                :class="activeLayout?.isLock ? 'bg-white text-red-500' : 'text-white'"
             >
                 <svg class="w-4 h-4" width="800" height="800" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3zM9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9V7z"/></svg>
             </button>
             <button
                 @click="handleInvertImageForActiveLayout"
-                title="Invert Image"
-                class="p-2 flex justify-center text-white hover:bg-white hover:text-red-500 duration-300"
+                :title="activeLayout?.invertImage ? 'Revert Image' : 'Invert Image'"
+                class="p-2 flex justify-center text-white hover:bg-white/10 duration-300"
+                :class="activeLayout?.invertImage ? 'bg-white text-red-500' : 'text-white'"
             >
                 <svg class="w-4 h-4" width="800" height="800" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h18v18H3V3zm16 4h-2v2h-2v2h-2v2h-2v2H9v2H7v2h12V7z" fill="currentColor"/></svg>
             </button>
@@ -127,6 +143,7 @@ const FileUpload = {
             layoutData,
             deleteLayout,
             addNewLayout,
+            setActiveIndex
         }
     },
     template: `
@@ -147,9 +164,7 @@ const FileUpload = {
                 class="relative bg-white border-2 rounded aspect-square"
                 :class="index == layoutData.activeIndex ? 'border-red-500' : 'border-gray-200'"
                 style="height: 83px;"
-                @click="() => {
-                    layoutData.activeIndex = index
-                }"
+                @click="setActiveIndex(index)"
             >
                 <button 
                     class="absolute top-1 right-1  bg-red-500 text-white p-1 rounded-full shadow z-10"
@@ -272,10 +287,10 @@ const Position = {
 
 const AdBanner = {
     template: `
-        <a href="/" _target="blank">
+        <a href="/" _target="blank" class="sticky bottom-0 z-10">
             <img 
                 class="w-full block"
-                src="https://www.webfx.com/wp-content/uploads/2021/10/banner-ad-example-online.png"
+                src="https://placehold.co/600x60/167492/FFF"
             />
         </a>
     `
