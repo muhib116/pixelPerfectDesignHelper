@@ -44,7 +44,7 @@ const Input = {
     `
 }
 const ColorBox = {
-    props: ['color'],
+    props: ['color', 'activeLayout'],
     setup(){
         const isCopied = ref(false)
         const handleCopyStatus = () => {
@@ -55,13 +55,14 @@ const ColorBox = {
         }
         return {
             copyColorToClipBoard,
+            deleteSingleColor,
             handleCopyStatus,
             isCopied
         }
     },
     template: `
         <button
-            class="flex gap-1 items-center relative"
+            class="colorBox flex gap-1 items-center relative"
             style="font-size: 12px"
             @click="copyColorToClipBoard(color, handleCopyStatus)"
         >
@@ -72,11 +73,23 @@ const ColorBox = {
                 Copied
             </span>
             <span 
+                title="Click to copy"
                 class="w-3 h-3 flex-shrink-0 block border border-opacity-50"
                 :style="{ backgroundColor: color, borderRadius: '2px' }"
             ></span>
-            {{ color }}
-            <svg class="w-3 h-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+            <span 
+                title="Click to copy"
+            >
+                {{ color }}
+            </span>
+            <button
+                title="Click to delete"
+                class="absolute colorBoxClose right-0 w-4 h-4 bg-red-500 text-white rounded-full"
+                style="padding-left: 2px; padding-top: 0px;"
+                @click="deleteSingleColor(color, activeLayout)"
+            >
+                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+            </button>
         </button>
     `
 }
@@ -102,7 +115,7 @@ const Header = {
         }
     },
     template: `
-        <div class="bg-red-500 grid grid-cols-5">
+        <div class="bg-red-500 grid grid-cols-5 z-10">
             <button
                 @click="handleCollapse"
                 title="Collapse"
@@ -366,6 +379,7 @@ const ColorsHistory = {
                     v-for="(color, index) in activeLayout.colors"
                     :key="index"
                     :color="color"
+                    :activeLayout="activeLayout"
                 />
             </div>
         </div>

@@ -87,6 +87,12 @@ const clearColors = (activeLayout) => {
     if(!confirm('Are you sure ?')) return
     activeLayout.colors = []
 }
+const deleteSingleColor = (color, activeLayout) => {
+    if(!confirm('Are you sure delete this color ?')) return
+    activeLayout.colors = activeLayout.colors.filter(_color => {
+        return _color != color
+    })
+}
 
 
 // localStorage methods start
