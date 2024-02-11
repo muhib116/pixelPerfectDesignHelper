@@ -1,5 +1,5 @@
-const div = document.createElement("div");
-div.setAttribute("id", "_extension_toolBox");
+const div = document.createElement("div")
+div.setAttribute("id", "_extension_toolBox")
 document.body.appendChild(div)
 
 createApp({
