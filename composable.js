@@ -3,7 +3,6 @@ const { ref, computed, watch, createApp, onMounted } = Vue
 const storageKey = '_pixelPerfectLayoutData'
 const placeholderConfig = {
     imgElement: null,
-    fileInput: null,
     src: null,
     width: null,
     height: null,
@@ -15,6 +14,7 @@ const placeholderConfig = {
     isLock: false,
     isShow: true,
     invertImage: false,
+    colors: []
 }
 
 const layoutData = ref({
@@ -62,6 +62,30 @@ const deleteLayout = (index, layoutData) => {
 const setActiveIndex = (index) => {
     layoutData.value.activeIndex = index
     printImageInDOM(layoutData.value)
+}
+const openColorPicker = async(activeLayout) => {
+    try {
+        const colorPicker = new EyeDropper()
+        const { sRGBHex } = await colorPicker.open()
+        activeLayout.colors.unshift(sRGBHex)
+    } catch (error) {
+        console.error(error)
+    }
+}
+const copyColorToClipBoard = async (color, handleCopyStatus) => {
+    try {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+            throw new Error('Clipboard writeText API not supported')
+        }
+        await navigator.clipboard.writeText(color)
+        handleCopyStatus()
+    } catch (error) {
+        console.error('Failed to copy color to clipboard:', error);
+    }
+}
+const clearColors = (activeLayout) => {
+    if(!confirm('Are you sure ?')) return
+    activeLayout.colors = []
 }
 
 

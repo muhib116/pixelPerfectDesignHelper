@@ -10,7 +10,8 @@ createApp({
         WidthHeight,
         Position,
         OpacityAndZIndex,
-        AdBanner
+        AdBanner,
+        ColorsHistory
     },
     setup() {
         let timeoutId = null
@@ -57,6 +58,9 @@ createApp({
                 v-if="!layoutData.isCollapsed"
                 class="text-white p-4 grid gap-2"
             >
+                <ColorsHistory
+                    :activeLayout="layoutData.config[layoutData.activeIndex]"
+                />
                 <WidthHeight
                     v-if="layoutData.config[layoutData.activeIndex] && layoutData.config[layoutData.activeIndex].src"
                     :activeLayout="layoutData.config[layoutData.activeIndex]"

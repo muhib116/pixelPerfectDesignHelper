@@ -43,6 +43,43 @@ const Input = {
         </label>
     `
 }
+const ColorBox = {
+    props: ['color'],
+    setup(){
+        const isCopied = ref(false)
+        const handleCopyStatus = () => {
+            isCopied.value = true
+            setTimeout(() => {
+                isCopied.value = false
+            }, 800)
+        }
+        return {
+            copyColorToClipBoard,
+            handleCopyStatus,
+            isCopied
+        }
+    },
+    template: `
+        <button
+            class="flex gap-1 items-center relative"
+            style="font-size: 12px"
+            @click="copyColorToClipBoard(color, handleCopyStatus)"
+        >
+            <span
+                class="absolute -ml-1 inset-0 bg-red-500 rounded-lg duration-200 pointer-events-none"
+                :class="isCopied ? 'opacity-100' : 'opacity-0'"
+            >
+                Copied
+            </span>
+            <span 
+                class="w-3 h-3 flex-shrink-0 block border border-opacity-50"
+                :style="{ backgroundColor: color, borderRadius: '2px' }"
+            ></span>
+            {{ color }}
+            <svg class="w-3 h-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path></svg>
+        </button>
+    `
+}
 // basic component end
 
 
@@ -52,7 +89,7 @@ const Header = {
       'mouseDown',
       'mouseMove',
       'mouseUp',
-      'activeLayout'
+      'activeLayout',
     ],
     setup(){
         return {
@@ -60,11 +97,12 @@ const Header = {
             handleShowForActiveLayout,
             handleInvertImageForActiveLayout,
             handleLockForActiveLayout,
-            layoutData
+            layoutData,
+            openColorPicker
         }
     },
     template: `
-        <div class="bg-red-500 grid grid-cols-4">
+        <div class="bg-red-500 grid grid-cols-5">
             <button
                 @click="handleCollapse"
                 title="Collapse"
@@ -102,6 +140,14 @@ const Header = {
                 :class="activeLayout?.invertImage ? 'bg-white text-red-500' : 'text-white'"
             >
                 <svg class="w-4 h-4" width="800" height="800" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h18v18H3V3zm16 4h-2v2h-2v2h-2v2h-2v2H9v2H7v2h12V7z" fill="currentColor"/></svg>
+            </button>
+            <button
+                @click="openColorPicker(activeLayout)"
+                :title="activeLayout?.invertImage ? 'Revert Image' : 'Invert Image'"
+                class="p-2 flex justify-center text-white hover:bg-white/10 duration-300"
+                :class="activeLayout?.invertImage ? 'bg-white text-red-500' : 'text-white'"
+            >
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M224,67.3a35.79,35.79,0,0,0-11.26-25.66c-14-13.28-36.72-12.78-50.62,1.13L138.8,66.2a24,24,0,0,0-33.14.77l-5,5a16,16,0,0,0,0,22.64l2,2.06-51,51a39.75,39.75,0,0,0-10.53,38l-8,18.41A13.68,13.68,0,0,0,36,219.3a15.92,15.92,0,0,0,17.71,3.35L71.23,215a39.89,39.89,0,0,0,37.06-10.75l51-51,2.06,2.06a16,16,0,0,0,22.62,0l5-5a24,24,0,0,0,.74-33.18l23.75-23.87A35.75,35.75,0,0,0,224,67.3ZM97,193a24,24,0,0,1-24,6,8,8,0,0,0-5.55.31l-18.1,7.91L57,189.41a8,8,0,0,0,.25-5.75A23.88,23.88,0,0,1,63,159l51-51,33.94,34Z"></path></svg>
             </button>
         </div>
     `
@@ -230,7 +276,6 @@ const WidthHeight = {
         </div>
     `
 }
-
 const OpacityAndZIndex = {
     components: {
         Input
@@ -259,7 +304,6 @@ const OpacityAndZIndex = {
         </div>
     `
 }
-
 const Position = {
     components: {
         Input
@@ -284,7 +328,6 @@ const Position = {
         </div>
     `
 }
-
 const AdBanner = {
     template: `
         <a href="/" _target="blank" class="sticky bottom-0 z-10">
@@ -293,5 +336,38 @@ const AdBanner = {
                 src="https://placehold.co/600x60/167492/FFF"
             />
         </a>
+    `
+}
+
+const ColorsHistory = {
+    props: ['activeLayout'],
+    components: {ColorBox},
+    setup(){
+        return {
+            clearColors
+        }
+    },
+    template: `
+        <div
+            v-if="activeLayout?.colors?.length" 
+            class="border-b border-opacity-10 pb-4"
+        >
+            <div class="flex justify-between items-center mb-3">
+                Colors
+                <button
+                    class="text-red-400"
+                    @click="clearColors(activeLayout)"
+                >
+                    Clear
+                </button>
+            </div>
+            <div class="grid grid-cols-3 text-white text-opacity-70 gap-2">
+                <ColorBox
+                    v-for="(color, index) in activeLayout.colors"
+                    :key="index"
+                    :color="color"
+                />
+            </div>
+        </div>
     `
 }

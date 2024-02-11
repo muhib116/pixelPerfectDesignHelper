@@ -9,7 +9,6 @@ const moveMe = () => {
         isMouseDown = true
     }
     const mouseMove = (e) => {
-        console.log('wwwwww')
         if (isMouseDown) {
             position.x += e.movementX
             position.y += e.movementY
