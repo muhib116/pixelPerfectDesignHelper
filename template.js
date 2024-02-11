@@ -119,12 +119,25 @@ const Header = {
             handleShowForActiveLayout,
             handleInvertImageForActiveLayout,
             handleLockForActiveLayout,
+            panelMouseDown,
             layoutData,
             openColorPicker
         }
     },
     template: `
-        <div class="bg-red-500 grid grid-cols-5 z-10">
+        <div class="bg-red-500 grid grid-cols-6 z-10">
+            <button
+                @mousedown="panelMouseDown"
+                title="Collapse"
+                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 bg-gray-600 duration-300"
+            >
+                <svg
+                    class="w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"
+                >
+                    <path d="M90.34,61.66a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,0l32,32a8,8,0,0,1-11.32,11.32L136,43.31V96a8,8,0,0,1-16,0V43.31L101.66,61.66A8,8,0,0,1,90.34,61.66Zm64,132.68L136,212.69V160a8,8,0,0,0-16,0v52.69l-18.34-18.35a8,8,0,0,0-11.32,11.32l32,32a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm83.32-72-32-32a8,8,0,0,0-11.32,11.32L212.69,120H160a8,8,0,0,0,0,16h52.69l-18.35,18.34a8,8,0,0,0,11.32,11.32l32-32A8,8,0,0,0,237.66,122.34ZM43.31,136H96a8,8,0,0,0,0-16H43.31l18.35-18.34A8,8,0,0,0,50.34,90.34l-32,32a8,8,0,0,0,0,11.32l32,32a8,8,0,0,0,11.32-11.32Z"></path>
+                </svg>
+            </button>
             <button
                 @click="handleCollapse"
                 title="Collapse"
@@ -158,7 +171,7 @@ const Header = {
             <button
                 @click="handleInvertImageForActiveLayout"
                 :title="activeLayout?.invertImage ? 'Revert Image' : 'Invert Image'"
-                class="p-2 flex justify-center text-white hover:bg-white/10 duration-300"
+                class="p-2 flex justify-center text-white hover:bg-white/10 duration-300 border-r border-white border-opacity-30"
                 :class="activeLayout?.invertImage ? 'bg-white text-red-500' : 'text-white'"
             >
                 <svg class="w-4 h-4" width="800" height="800" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h18v18H3V3zm16 4h-2v2h-2v2h-2v2h-2v2H9v2H7v2h12V7z" fill="currentColor"/></svg>
@@ -174,7 +187,6 @@ const Header = {
         </div>
     `
 }
-
 const LayoutImages = {
     components: {
         TemplatePreview
@@ -202,6 +214,7 @@ const FileUpload = {
             const file = e.target.files[0]
             const reader = new FileReader()
             reader.readAsDataURL(file)
+            
             reader.onload = () => {
                 item.src = reader.result
             }
@@ -360,7 +373,6 @@ const AdBanner = {
         </a>
     `
 }
-
 const ColorsHistory = {
     props: ['activeLayout'],
     components: {ColorBox},

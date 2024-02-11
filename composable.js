@@ -8,7 +8,7 @@ const placeholderConfig = {
     height: null,
     left: 0,
     top: 0,
-    opacity: 0.5,
+    opacity: 1,
     showImage: true,
     zIndex: 1000,
     isLock: false,
@@ -18,7 +18,12 @@ const placeholderConfig = {
 }
 
 const layoutData = ref({
+    panelElement: null,
     activeIndex: 0,
+    panelCoordinates: {
+        left: 200,
+        top: 200
+    },
     isCollapsed: false,
     imgElement: null,
     config: []
@@ -36,7 +41,7 @@ const handleCollapse = () => {
 }
 const handleShowForActiveLayout = () => {
     let activeLayout = layoutData.value.config[layoutData.value.activeIndex]
-    if(activeLayout.src){
+    if(activeLayout?.src){
         activeLayout.isShow = !activeLayout.isShow
         printImageInDOM(layoutData.value)
     }else{
@@ -184,6 +189,7 @@ const printImageInDOM = (layoutData) =>
     }
 }
 const imageStyleAdd = (imgElement, activeLayoutData) => {
+    if(!imgElement) return
     imgElement.style.cssText = `
         width: ${activeLayoutData.width}px;
         height: ${activeLayoutData.height}px;
@@ -202,5 +208,42 @@ const imageStyleAdd = (imgElement, activeLayoutData) => {
 
 
 // panel move by dragging start
+const panelMouseDownPosition = {
+    x: 0,
+    y: 0
+}
+const panelDistance = {
+    x: 0,
+    y: 0
+}
+let panelIsMouseDown = false
+const panelMouseDown = (e) => {
+    layoutData.value.panelElement = e.target.closest('.draggable')
+    panelMouseDownPosition.x = e.clientX
+    panelMouseDownPosition.y = e.clientY
+    panelIsMouseDown = true
+}
 
+window.addEventListener('mousemove', (e) => {
+    if (!panelIsMouseDown) return
+    
+    panelDistance.x = e.clientX - panelMouseDownPosition.x
+    panelDistance.y = e.clientY - panelMouseDownPosition.y
+
+    const panelCoordinates = layoutData.value.panelCoordinates
+
+
+    panelCoordinates.left = Number(panelCoordinates.left) + Number(panelDistance.x)
+    panelCoordinates.top  = Number(panelCoordinates.top ) + Number(panelDistance.y)
+    
+    // Update the mouseDownPosition for the next move
+    panelMouseDownPosition.x = e.clientX
+    panelMouseDownPosition.y = e.clientY
+})
+
+window.addEventListener('mouseup', () => {
+    console.log('mouseUp')
+    panelIsMouseDown = false
+    // storeInLocalStorage(layoutData.value)
+})
 // panel move by dragging end
