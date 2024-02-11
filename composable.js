@@ -35,21 +35,36 @@ const handleCollapse = () => {
     layoutData.value.isCollapsed = !layoutData.value.isCollapsed
 }
 const handleShowForActiveLayout = () => {
-    layoutData.value.config[layoutData.value.activeIndex].isShow = !layoutData.value.config[layoutData.value.activeIndex].isShow
-    printImageInDOM(layoutData.value)
+    let activeLayout = layoutData.value.config[layoutData.value.activeIndex]
+    if(activeLayout.src){
+        activeLayout.isShow = !activeLayout.isShow
+        printImageInDOM(layoutData.value)
+    }else{
+        alert('Please select a layout, that has image. or upload a new image')
+    }
 }
 const handleLockForActiveLayout = () => {
-    layoutData.value.config[layoutData.value.activeIndex].isLock = !layoutData.value.config[layoutData.value.activeIndex].isLock
-    printImageInDOM(layoutData.value)
+    let activeLayout = layoutData.value.config[layoutData.value.activeIndex]
+    if(activeLayout.src){
+        activeLayout.isLock = !activeLayout.isLock
+        printImageInDOM(layoutData.value)
+    }else{
+        alert('Please select a layout, that has image. or upload a new image')
+    }
 }
 const handleInvertImageForActiveLayout = () => {
-    layoutData.value.config[layoutData.value.activeIndex].invertImage = !layoutData.value.config[layoutData.value.activeIndex].invertImage
-    printImageInDOM(layoutData.value)
+    let activeLayout = layoutData.value.config[layoutData.value.activeIndex]
+    if(activeLayout.src){
+        activeLayout.invertImage = !activeLayout.invertImage
+        printImageInDOM(layoutData.value)
+    }else{
+        alert('Please select a layout, that has image. or upload a new image')
+    }
 }
 // topBar action handler end
 
 
-
+// panel body action start
 const addNewLayout = () => {
     layoutData.value.config.unshift({...placeholderConfig})
     printImageInDOM(layoutData.value)
@@ -87,12 +102,14 @@ const clearColors = (activeLayout) => {
     if(!confirm('Are you sure ?')) return
     activeLayout.colors = []
 }
-const deleteSingleColor = (color, activeLayout) => {
+const deleteSingleColor = (index, activeLayout) => {
     if(!confirm('Are you sure delete this color ?')) return
-    activeLayout.colors = activeLayout.colors.filter(_color => {
-        return _color != color
-    })
+    activeLayout.colors.splice(index, 1)
 }
+const changeColor = (event, index, activeLayout) => {
+    activeLayout.colors[index] = event.target.value
+}
+// panel body action end
 
 
 // localStorage methods start
@@ -182,3 +199,8 @@ const imageStyleAdd = (imgElement, activeLayoutData) => {
     `
 }
 // print image to DOM end
+
+
+// panel move by dragging start
+
+// panel move by dragging end

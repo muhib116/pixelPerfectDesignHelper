@@ -44,7 +44,7 @@ const Input = {
     `
 }
 const ColorBox = {
-    props: ['color', 'activeLayout'],
+    props: ['color', 'activeLayout', 'index'],
     setup(){
         const isCopied = ref(false)
         const handleCopyStatus = () => {
@@ -57,6 +57,7 @@ const ColorBox = {
             copyColorToClipBoard,
             deleteSingleColor,
             handleCopyStatus,
+            changeColor,
             isCopied
         }
     },
@@ -64,7 +65,6 @@ const ColorBox = {
         <button
             class="colorBox flex gap-1 items-center relative"
             style="font-size: 12px"
-            @click="copyColorToClipBoard(color, handleCopyStatus)"
         >
             <span
                 class="absolute -ml-1 inset-0 bg-red-500 rounded-lg duration-200 pointer-events-none"
@@ -72,13 +72,22 @@ const ColorBox = {
             >
                 Copied
             </span>
-            <span 
-                title="Click to copy"
-                class="w-3 h-3 flex-shrink-0 block border border-opacity-50"
+            <label 
+                title="Click to modify the color"
+                class="w-3 h-3 flex-shrink-0 cursor-pointer block border border-opacity-50"
                 :style="{ backgroundColor: color, borderRadius: '2px' }"
-            ></span>
+            >
+                <input 
+                    type="color" 
+                    hidden 
+                    :value="color" 
+                    @input="changeColor($event, index, activeLayout)" 
+                    class="pointer-events-none"
+                />
+            </label>
             <span 
                 title="Click to copy"
+                @click="copyColorToClipBoard(color, handleCopyStatus)"
             >
                 {{ color }}
             </span>
@@ -86,7 +95,7 @@ const ColorBox = {
                 title="Click to delete"
                 class="absolute colorBoxClose right-0 w-4 h-4 bg-red-500 text-white rounded-full"
                 style="padding-left: 2px; padding-top: 0px;"
-                @click="deleteSingleColor(color, activeLayout)"
+                @click="deleteSingleColor(index, activeLayout)"
             >
                 <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
             </button>
@@ -378,6 +387,7 @@ const ColorsHistory = {
                 <ColorBox
                     v-for="(color, index) in activeLayout.colors"
                     :key="index"
+                    :index="index"
                     :color="color"
                     :activeLayout="activeLayout"
                 />
