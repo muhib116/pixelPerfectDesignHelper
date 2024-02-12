@@ -17,7 +17,7 @@ createApp({
         let timeoutId = null
 
         onMounted(() => {
-            console.log('Starting')
+            console.log(layoutData)
             start()
         })
         watch(() => layoutData, () => {
