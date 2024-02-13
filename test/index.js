@@ -16,11 +16,18 @@ const wrapper = `
             ${WidthHeight()}
             ${Position()}
             ${OpacityAndZIndex()}
-            <FileUpload class="mt-4 overflow-y-auto" style="max-height: 266px" />    
+            ${FileUpload()}
         </div>
-        <AdBanner />
+        ${AdBanner()}
     </div>
 `
 
 
 document.body.innerHTML = wrapper
+
+runScript()
+
+// onload data print from localStorage
+loadFromLocalStorage()
+renderColor()
+renderCssProperties()
