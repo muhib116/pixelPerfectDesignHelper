@@ -80,6 +80,8 @@ const getElementsById = () => ({
     pph_opacity_input: _id('_pph_opacity_input'),
     pph_zIndex_input: _id('_pph_zIndex_input'),
     pph_banner_container: _id('_pph_banner_container'),
+    pph_add_layout_btn: _id('_pph_add_layout_btn'),
+    pph_layouts_wrapper: _id('_pph_layouts_wrapper'),
 })
 
 let elements
@@ -113,5 +115,12 @@ const runScript = () => {
     }
     elements.pph_zIndex_input.oninput = (e) => {
         handleCssProperty(e, layoutData, 'zIndex')
+    }
+    elements.pph_add_layout_btn.onclick = () => {
+        layoutData.config.push({...placeholderConfig})
+        renderFileUpload()
+    }
+    elements.pph_layouts_wrapper.onclick = (e) => {
+        handleLayout(e, layoutData)
     }
 }

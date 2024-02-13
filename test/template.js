@@ -83,6 +83,53 @@ const ColorBox = ({color, index}) => {
         </div>
     `
 }
+const ImageBoxForUpload = (layout, index) => {
+    return `
+        <div
+            class="
+                relative bg-white border-2 rounded aspect-square cursor-pointer 
+                ${index == layoutData.activeIndex ? 'border-red-500' : 'border-gray-200'}
+            "
+            style="height: 83px;"
+            data-content="${index}"
+            data-_identity="_pph_image_wrapper"
+        >
+            <button 
+                data-_identity="_pph_delete_layout_btn"
+                data-content="${index}"
+                class="absolute top-1 right-1 pointer-events-auto bg-red-500 text-white p-1 rounded-full shadow z-10"
+            >
+                <svg class="w-3 h-3 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+            </button>
+
+            <div 
+                class="border h-full overflow-hidden flex items-center justify-center cursor-pointer relative pointer-events-none"
+            >
+                <img
+                    src="${layout.src}"
+                    class="
+                        w-full h-full object-cover object-left-top block rounded pointer-events-none 
+                        ${ layout.src ? 'block' : 'hidden' }
+                    "
+                />
+                <label 
+                    class="cursor-pointer pointer-events-auto absolute z-10 bg-blue-500 text-white p-2 rounded-full shadow-lg border-2 border-white hover:scale-110 duration-300 w-12 h-12 flex items-center justify-center"
+                    title="Upload design"
+                >
+                    <svg class="pointer-events w-8 h-8" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M197.67,186.37a8,8,0,0,1,0,11.29C196.58,198.73,170.82,224,128,224c-37.39,0-64.53-22.4-80-39.85V208a8,8,0,0,1-16,0V160a8,8,0,0,1,8-8H88a8,8,0,0,1,0,16H55.44C67.76,183.35,93,208,128,208c36,0,58.14-21.46,58.36-21.68A8,8,0,0,1,197.67,186.37ZM216,40a8,8,0,0,0-8,8V71.85C192.53,54.4,165.39,32,128,32,85.18,32,59.42,57.27,58.34,58.34a8,8,0,0,0,11.3,11.34C69.86,69.46,92,48,128,48c35,0,60.24,24.65,72.56,40H168a8,8,0,0,0,0,16h48a8,8,0,0,0,8-8V48A8,8,0,0,0,216,40Z"></path></svg>
+                    <input
+                        data-_identity="_pph_image_upload_input"
+                        data-content="${index}"
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        @change="handleImage($event,item)"
+                    />
+                </label>
+            </div>
+        </div>
+    `
+}
 // basic component end
 
 const Header = () => {
@@ -245,65 +292,23 @@ const AdBanner = () => {
         <div
             class="sticky bottom-0 z-10 h-10 bg-red-500 flex items-center justify-center"
             id="_pph_banner_container"
-        >Ad Placed Here</div>
+        >
+            Ad Placed Here
+        </div>
     `
 }
 const FileUpload = () => {
     return `
-        <div 
-            class="grid gap-2 mt-4 overflow-y-auto grid-cols-3" style="max-height: 266px""
-            :class="layoutData.config.length ? 'grid-cols-3' : ''"
+        <button
+            class="bg-red-500 text-white rounded py-1"
+            id="_pph_add_layout_btn"
         >
-            <label
-                @click="addNewLayout()"
-                class="bg-gray-400/50 aspect-square border border-dashed text-white py-4 cursor-pointer rounded flex items-center justify-center"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
-            </label>
-
-            <div
-                v-for="(item, index) in layoutData.config"
-                :key="index"
-                class="relative bg-white border-2 rounded aspect-square"
-                :class="index == layoutData.activeIndex ? 'border-red-500' : 'border-gray-200'"
-                style="height: 83px;"
-                @click="setActiveIndex(index)"
-            >
-                <button 
-                    class="absolute top-1 right-1  bg-red-500 text-white p-1 rounded-full shadow z-10"
-                    @click="deleteLayout(index, layoutData)"
-                >
-                    <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-                </button>
-                
-                <div 
-                    class="border h-full overflow-hidden flex items-center justify-center cursor-pointer relative"
-                >
-                    <img
-                        v-if="item?.src"
-                        :src="item.src"
-                        class="w-full h-full object-cover object-left-top block rounded"
-                    />
-                    <label 
-                        class="cursor-pointer absolute z-10 bg-blue-500 text-white p-2 rounded-full shadow-lg border-2 border-white hover:scale-110 duration-300 w-12 h-12 flex items-center justify-center"
-                        title="Upload design"
-                    >
-                        <svg
-                            class="pointer-events-none w-8 h-8"
-                            xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"
-                        >
-                            <path d="M248,128a87.34,87.34,0,0,1-17.6,52.81,8,8,0,1,1-12.8-9.62A71.34,71.34,0,0,0,232,128a72,72,0,0,0-144,0,8,8,0,0,1-16,0,88,88,0,0,1,3.29-23.88C74.2,104,73.1,104,72,104a48,48,0,0,0,0,96H96a8,8,0,0,1,0,16H72A64,64,0,1,1,81.29,88.68,88,88,0,0,1,248,128Zm-90.34-5.66a8,8,0,0,0-11.32,0l-32,32a8,8,0,0,0,11.32,11.32L144,147.31V208a8,8,0,0,0,16,0V147.31l18.34,18.35a8,8,0,0,0,11.32-11.32Z"></path>
-                        </svg>
-                        <input
-                            ref="inputField"
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            @change="handleImage($event,item)"
-                        />
-                    </label>
-                </div>
-            </div>
-        </div>
+            Add Layout +
+        </button>
+        <div 
+            class="grid grid-cols-3 w-full gap-2 mt-4 overflow-y-auto" style="max-height: 266px""
+            :class="layoutData.config.length ? 'grid-cols-3' : ''"
+            id="_pph_layouts_wrapper"
+        ></div>
     `
 }

@@ -1,3 +1,4 @@
+
 const wrapper = `
     <div
         class="scrollbar draggable shadow-lg bg-gray-800 text-white rounded text-xs border border-red-500"
@@ -31,3 +32,4 @@ runScript()
 loadFromLocalStorage()
 renderColor()
 renderCssProperties()
+renderFileUpload()
