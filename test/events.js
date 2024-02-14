@@ -62,6 +62,7 @@ const handleLayout = (e, layoutData) => {
                 reader.onload = (e) => {
                     layoutData.config[content].src = e.target.result
                     renderFileUpload()
+                    printImageInDOM(layoutData)
                 }
                 reader.readAsDataURL(file)
             }

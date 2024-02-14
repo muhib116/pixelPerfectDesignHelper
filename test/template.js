@@ -201,7 +201,7 @@ const ColorsHistory = () => {
                     class="text-red-400"
                     id="_pph_colors_clear_btn"
                 >
-                    Clear
+                    Clear All
                 </button>
             </div>
             <div
