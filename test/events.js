@@ -37,6 +37,7 @@ const handleCssProperty = (e, layoutData, dataKey) => {
     activeLayout[dataKey] = e.target.value
     renderCssProperties()
     storeInLocalStorage(layoutData)
+    printImageInDOM(layoutData)
 }
 
 const handleLayout = (e, layoutData) => {
@@ -46,6 +47,7 @@ const handleLayout = (e, layoutData) => {
         _pph_image_wrapper: () => {
             layoutData.activeIndex = content
             renderFileUpload()
+            printImageInDOM(layoutData)
         },
         _pph_delete_layout_btn: () => {
             if(!confirm('Are you sure?')) return
@@ -67,4 +69,53 @@ const handleLayout = (e, layoutData) => {
     }
 
     events[_identity]()
+}
+
+
+const makeToolboxDraggable = (layoutData) => {
+    const panelMouseDownPosition = {
+        x: 0,
+        y: 0
+    }
+    const panelDistance = {
+        x: 0,
+        y: 0
+    }
+
+    let panelIsMouseDown = false
+    elements.pph_move_btn.onmousedown = (e) => {
+        layoutData.toolBoxWrapper = e.target.closest('.draggable')
+        panelMouseDownPosition.x = e.clientX
+        panelMouseDownPosition.y = e.clientY
+        panelIsMouseDown = true
+    }
+    
+    const mouseMoveHandler = (e) => {
+        if (!panelIsMouseDown) return
+        
+        panelDistance.x = e.clientX - panelMouseDownPosition.x
+        panelDistance.y = e.clientY - panelMouseDownPosition.y
+    
+        const panelCoordinates = layoutData.panelCoordinates
+        const toolBoxInfo = layoutData.toolBoxWrapper.getBoundingClientRect()
+    
+    
+        panelCoordinates.left = Number(toolBoxInfo.left) + Number(panelDistance.x)
+        panelCoordinates.top  = Number(toolBoxInfo.top ) + Number(panelDistance.y)
+        
+        layoutData.toolBoxWrapper.style.left = panelCoordinates.left + 'px'
+        layoutData.toolBoxWrapper.style.top  = panelCoordinates.top + 'px'
+
+
+        // Update the mouseDownPosition for the next move
+        panelMouseDownPosition.x = e.clientX
+        panelMouseDownPosition.y = e.clientY
+    }
+    window.addEventListener('mousemove', mouseMoveHandler)
+
+    const mouseUpHandler = () => {
+        panelIsMouseDown = false
+        storeInLocalStorage(layoutData)
+    }
+    window.addEventListener('mouseup', mouseUpHandler)
 }

@@ -16,13 +16,12 @@ const placeholderConfig = {
 }
 
 let layoutData = {
-    panelElement: null,
+    toolBoxWrapper: null,
     activeIndex: 0,
     panelCoordinates: {
         left: 200,
         top: 200
     },
-    isCollapsed: false,
     imgElement: null,
     config: [{
         imgElement: null,
@@ -59,6 +58,7 @@ const deleteInLocalStorage = () => {
 const _id = (id) => document.getElementById(id)
 
 const getElementsById = () => ({
+    pph_toolbox: _id("_pph_toolbox"),
     pph_move_btn: _id("_pph_move_btn"),
     pph_collapse_btn: _id("_pph_collapse_btn"),
     pph_image_show_btn: _id("_pph_image_show_btn"),
@@ -87,6 +87,8 @@ const getElementsById = () => ({
 let elements
 const runScript = () => {
     elements = getElementsById()
+    elements.pph_toolbox.style.left = layoutData.panelCoordinates.left + 'px'
+    elements.pph_toolbox.style.top = layoutData.panelCoordinates.top + 'px'
     
     elements.pph_color_picker_btn.onclick = () => {
         handleColorPicking(layoutData)
@@ -122,5 +124,33 @@ const runScript = () => {
     }
     elements.pph_layouts_wrapper.onclick = (e) => {
         handleLayout(e, layoutData)
+    }
+    elements.pph_collapse_btn.onclick = (e) => {
+        const currentElem = e.target
+        currentElem.classList.toggle('bg-white')
+        currentElem.classList.toggle('text-red-500')
+        layoutData.isCollapsed = !layoutData.isCollapsed
+        elements.pph_body.classList.toggle('hidden')
+    }
+    elements.pph_image_show_btn.onclick = (e) => {
+        const currentElem = e.target
+        currentElem.classList.toggle('bg-white')
+        currentElem.classList.toggle('text-red-500')
+        getActiveLayout(layoutData).isShow = !getActiveLayout(layoutData).isShow
+        printImageInDOM(layoutData)
+    }
+    elements.pph_image_lock_btn.onclick = (e) => {
+        const currentElem = e.target
+        currentElem.classList.toggle('bg-white')
+        currentElem.classList.toggle('text-red-500')
+        getActiveLayout(layoutData).isLock = !getActiveLayout(layoutData).isLock
+        printImageInDOM(layoutData)
+    }
+    elements.pph_image_invert_btn.onclick = (e) => {
+        const currentElem = e.target
+        currentElem.classList.toggle('bg-white')
+        currentElem.classList.toggle('text-red-500')
+        getActiveLayout(layoutData).invertImage = !getActiveLayout(layoutData).invertImage
+        printImageInDOM(layoutData)
     }
 }

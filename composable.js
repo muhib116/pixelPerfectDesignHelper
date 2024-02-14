@@ -242,7 +242,6 @@ window.addEventListener('mousemove', (e) => {
 })
 
 window.addEventListener('mouseup', () => {
-    console.log('mouseUp')
     panelIsMouseDown = false
     // storeInLocalStorage(layoutData.value)
 })
