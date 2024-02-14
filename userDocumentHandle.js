@@ -30,6 +30,7 @@ const printImageInDOM = (layoutData) =>
         layoutData.imgElement = document.createElement('img')
     }
 
+    if(!activeLayoutData.src) return
     layoutData.imgElement.src = activeLayoutData.src
     layoutData.imgElement.setAttribute('id', '_overlayImage_pixelPerfect')
     layoutData.imgElement.setAttribute('draggable', 'false')

@@ -22,7 +22,15 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["vue3.js", "composable.js", "template.js", "index.js"]
+            "js": [
+                "userDocumentHandle.js", 
+                "template.js", 
+                "config.js",
+                "events.js",
+                "colorAction.js",
+                "index.js",
+                "keyBoardShortCut.js"
+            ]
         }
     ]
 }

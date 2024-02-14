@@ -22,20 +22,21 @@ const Input = (props) => {
         label,
         min,
         id,
-        step
+        max
     } = props
     
     return `
         <label class="block w-full space-y-1">
-            <span class="text-sm text-gray-400 italic">
+            <span class="text-gray-400">
                ${ label }
             </span>
             <input
-                class="w-full block outline-none bg-white bg-opacity-5 border border-gray-500 px-2 py-1 rounded"
+                class="w-full block outline-none bg-gary-400 bg-opacity-50 border border-gray-500/20 px-2 py-1 rounded"
                 type="${type}"
                 placeholder="${placeholder}"
                 id="${id}"
                 min="${min}"
+                max="${max}"
                 step="any"
             />
         </label>
@@ -164,7 +165,7 @@ const Header = () => {
             </button>
             <button
                 id="_pph_image_show_btn"
-                class="p-2 flex justify-center  border-r border-white border-opacity-30 hover:bg-white/10 duration-300"
+                class="p-2 flex justify-center text-white border-r border-white border-opacity-30 hover:bg-white/10 duration-300"
             >
                 <svg class="w-4 h-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="800" height="800" fill="currentColor" viewBox="0 0 52 52" xml:space="preserve"><path d="M51.8 25.1c-1.6-3.2-3.7-6.1-6.3-8.4L37 25.1v.9c0 6.1-4.9 11-11 11h-.9l-5.4 5.4c2 .4 4.1.7 6.2.7 11.3 0 21.1-6.6 25.8-16.1.4-.7.4-1.3.1-1.9zM48.5 5.6l-2.1-2.1c-.6-.6-1.7-.5-2.4.3l-7.3 7.3C33.4 9.7 29.8 9 26 9 14.7 9 4.9 15.6.2 25.1c-.3.6-.3 1.3 0 1.8 2.2 4.5 5.5 8.2 9.6 11l-6 6.1c-.7.7-.8 1.8-.3 2.4l2.1 2.1c.6.6 1.7.5 2.4-.3L48.2 8c.8-.7.9-1.8.3-2.4zM15 26c0-6.1 4.9-11 11-11 2 0 3.8.5 5.4 1.4l-3 3c-.8-.2-1.6-.4-2.4-.4-3.9 0-7 3.1-7 7 0 .8.2 1.6.4 2.4l-3 3C15.5 29.8 15 28 15 26z"/></svg>
             </button>
@@ -260,11 +261,10 @@ const OpacityAndZIndex = () => {
     >
         ${Input({
             placeholder:"Opacity",
-            type:"number",
+            type:"range",
             label:"Opacity",
             min:"0",
             max:"1",
-            step:"0.01",
             id:"_pph_opacity_input",
         })}
         ${Input({
@@ -274,16 +274,6 @@ const OpacityAndZIndex = () => {
             id:"_pph_zIndex_input",
         })}
     </div>
-    `
-}
-const AdBanner = () => {
-    return `
-        <div
-            class="sticky bottom-0 z-10 h-10 bg-red-500 flex items-center justify-center"
-            id="_pph_banner_container"
-        >
-            Ad Placed Here
-        </div>
     `
 }
 const FileUpload = () => {
@@ -299,5 +289,18 @@ const FileUpload = () => {
             :class="layoutData.config.length ? 'grid-cols-3' : ''"
             id="_pph_layouts_wrapper"
         ></div>
+    `
+}
+const AdBanner = () => {
+    fetch('https://jsonplaceholder.typicode.com/photos')
+      .then(response => response.json())
+      .then(json => console.log(json))
+    return `
+        <div
+            class="sticky bottom-0 z-10 h-10 bg-red-500 flex items-center justify-center"
+            id="_pph_banner_container"
+        >
+            Ad Placed Here
+        </div>
     `
 }

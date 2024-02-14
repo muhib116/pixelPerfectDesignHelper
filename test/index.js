@@ -1,7 +1,7 @@
 
 const wrapper = `
     <div
-        class="fixed scrollbar draggable shadow-lg bg-gray-800 text-white rounded text-xs border border-red-500"
+        class="fixed scrollbar draggable shadow-lg bg-white text-gray-800 dark:bg-gray-800 dark:text-white rounded text-xs border border-red-500"
         id="_pph_toolbox"
         style="
             width: 300px;
