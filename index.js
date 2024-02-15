@@ -46,21 +46,21 @@ const _handleClass = (element, addOrRemove) => {
     element.classList[addOrRemove]('text-red-500')
 }
 
-if(!activeLayoutData.isShow){
-    _handleClass(elements.pph_image_show_btn, 'add')
-}else {
+if(activeLayoutData.isShow){
     _handleClass(elements.pph_image_show_btn, 'remove')
+}else {
+    _handleClass(elements.pph_image_show_btn, 'add')
 }
 
-if(!activeLayoutData.lock){
+if(activeLayoutData.lock){
     _handleClass(elements.pph_image_lock_btn, 'add')
 }else{
-    _handleClass(elements.pph_image_lock_btn, 'add')
+    _handleClass(elements.pph_image_lock_btn, 'remove')
 }
 
-if(!activeLayoutData.invert){
+if(activeLayoutData.invert){
     _handleClass(elements.pph_image_invert_btn, 'add')
 }else{
-    _handleClass(elements.pph_image_invert_btn, 'add')
+    _handleClass(elements.pph_image_invert_btn, 'remove')
 }
 // onMounted tab button active highlight end

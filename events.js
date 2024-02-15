@@ -110,22 +110,19 @@ const makeToolboxDraggable = (layoutData) => {
     
         const panelCoordinates = layoutData.panelCoordinates
         const toolBoxInfo = layoutData.toolBoxWrapper.getBoundingClientRect()
-        const bodyInfo = document.body.getBoundingClientRect()
     
     
-        document.body.style.backgroundColor = 'red'
         let left = Number(toolBoxInfo.left) + Number(panelDistance.x)
         let top = Number(toolBoxInfo.top ) + Number(panelDistance.y)
 
         panelCoordinates.left = left < 0 ? 0 : 
-                                    (left + toolBoxInfo.width) > bodyInfo.width
-                                        ? (bodyInfo.width - toolBoxInfo.width)
+                                    (left + toolBoxInfo.width) > window.innerWidth
+                                        ? (window.innerWidth - toolBoxInfo.width)
                                         : left
         panelCoordinates.top  = top < 0 ? 0 :
-                                    (top + toolBoxInfo.height) > bodyInfo.height
-                                        ? (bodyInfo.height - toolBoxInfo.height)
+                                    (top + 33) > window.innerHeight
+                                        ? window.innerHeight - 33
                                         : top
-                                        console.log(panelCoordinates)
         
         layoutData.toolBoxWrapper.style.left = panelCoordinates.left + 'px'
         layoutData.toolBoxWrapper.style.top  = panelCoordinates.top + 'px'
