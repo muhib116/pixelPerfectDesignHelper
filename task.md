@@ -1,4 +1,4 @@
-convert to extension
+toggle extension panel after user click
 image upload to chrome storage
 upgrade to pro button and other functionalities and message for advertising to user
 image upload short cut lik: image past, image url past
