@@ -7,7 +7,6 @@ const placeholderConfig = {
     left: 0,
     top: 0,
     opacity: 1,
-    showImage: true,
     zIndex: 1000,
     isLock: false,
     isShow: true,
@@ -31,7 +30,6 @@ let layoutData = {
         left: 0,
         top: 0,
         opacity: 1,
-        showImage: true,
         zIndex: 1000,
         isLock: false,
         isShow: true,
@@ -87,8 +85,26 @@ const getElementsById = () => ({
 let elements
 const runScript = () => {
     elements = getElementsById()
-    elements.pph_toolbox.style.left = layoutData.panelCoordinates.left + 'px'
-    elements.pph_toolbox.style.top = layoutData.panelCoordinates.top + 'px'
+
+    if(elements.pph_add_layout_btn){
+        elements.pph_add_layout_btn.onclick = () => {
+            if(!isPremium){
+                if(layoutData.config.length > 3){
+                    alert(premiumVersionAlert)
+                }else{
+                    layoutData.config.push({...placeholderConfig})
+                }
+            }else{
+                layoutData.config.push({...placeholderConfig})
+            }
+            renderFileUpload()
+        }
+    }
+
+    if(elements.pph_toolbox){
+        elements.pph_toolbox.style.left = layoutData.panelCoordinates.left + 'px'
+        elements.pph_toolbox.style.top = layoutData.panelCoordinates.top + 'px'
+    }
     
     elements.pph_color_picker_btn.onclick = () => {
         handleColorPicking(layoutData)

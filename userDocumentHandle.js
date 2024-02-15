@@ -13,6 +13,7 @@ const _imageStyleAdd = (imgElement, activeLayoutData) => {
         cursor: ${activeLayoutData.isLock ? 'none' : 'move'};
         display: ${activeLayoutData.isShow ? '' : 'none'};
         filter: invert(${Number(activeLayoutData.invertImage)});
+        user-select: none;
     `
 }
 
@@ -30,7 +31,6 @@ const printImageInDOM = (layoutData) =>
         layoutData.imgElement = document.createElement('img')
     }
 
-    if(!activeLayoutData.src) return
     layoutData.imgElement.src = activeLayoutData.src
     layoutData.imgElement.setAttribute('id', '_overlayImage_pixelPerfect')
     layoutData.imgElement.setAttribute('draggable', 'false')

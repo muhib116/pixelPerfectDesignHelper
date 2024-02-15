@@ -1,7 +1,7 @@
 
 const wrapper = `
     <div
-        class="fixed scrollbar draggable shadow-lg bg-gray-800 text-white rounded text-xs border border-red-500"
+        class="fixed select-none scrollbar draggable shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs border border-red-500"
         id="_pph_toolbox"
         style="
             width: 300px;
@@ -15,18 +15,19 @@ const wrapper = `
             id="_pph_body"
             class="text-white p-4 grid gap-2"
         >
-            ${ColorsHistory()}
-            ${WidthHeight()}
-            ${Position()}
-            ${OpacityAndZIndex()}
-            ${FileUpload()}
+            ${ ColorsHistory() }
+            ${ WidthHeight() }
+            ${ Position() }
+            ${ OpacityAndZIndex() }
+            ${ FileUpload() }
         </div>
         ${isPremium ? '' : AdBanner()}
     </div>
 `
+const tempDiv = document.createElement('div')
+tempDiv.innerHTML = wrapper
 
-
-document.body.innerHTML = wrapper
+document.body.prepend(tempDiv.firstElementChild)
 
 loadFromLocalStorage()
 runScript()
@@ -40,27 +41,31 @@ makeToolboxDraggable(layoutData)
 
 
 // onMounted tab button active highlight start
-const activeLayoutData = getActiveLayout(layoutData)
-const _handleClass = (element, addOrRemove) => {
-    element.classList[addOrRemove]('bg-white')
-    element.classList[addOrRemove]('text-red-500')
-}
+const loadOnMounted = () => {
+    const activeLayoutData = getActiveLayout(layoutData)
 
-if(activeLayoutData.isShow){
-    _handleClass(elements.pph_image_show_btn, 'remove')
-}else {
-    _handleClass(elements.pph_image_show_btn, 'add')
-}
+    const _handleClass = (element, addOrRemove) => {
+        element.classList[addOrRemove]('bg-white')
+        element.classList[addOrRemove]('text-red-500')
+    }
 
-if(activeLayoutData.lock){
-    _handleClass(elements.pph_image_lock_btn, 'add')
-}else{
-    _handleClass(elements.pph_image_lock_btn, 'remove')
-}
+    if(activeLayoutData.isShow){
+        _handleClass(elements.pph_image_show_btn, 'remove')
+    }else {
+        _handleClass(elements.pph_image_show_btn, 'add')
+    }
 
-if(activeLayoutData.invert){
-    _handleClass(elements.pph_image_invert_btn, 'add')
-}else{
-    _handleClass(elements.pph_image_invert_btn, 'remove')
+    if(activeLayoutData.isLock){
+        _handleClass(elements.pph_image_lock_btn, 'add')
+    }else{
+        _handleClass(elements.pph_image_lock_btn, 'remove')
+    }
+
+    if(activeLayoutData.invertImage){
+        _handleClass(elements.pph_image_invert_btn, 'add')
+    }else{
+        _handleClass(elements.pph_image_invert_btn, 'remove')
+    }
 }
+loadOnMounted()
 // onMounted tab button active highlight end

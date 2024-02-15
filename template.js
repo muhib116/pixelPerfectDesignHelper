@@ -31,7 +31,7 @@ const Input = (props) => {
                ${ label }
             </span>
             <input
-                class="w-full block outline-none bg-gray-400 bg-opacity-10 border border-gray-500 border-opacity-40 px-2 py-1 rounded"
+                class="w-full block outline-none bg-white dark:bg-gray-400 dark:bg-opacity-10 text-gray-800 dark:text-white border border-gray-500 border-opacity-40 px-2 py-1 rounded"
                 type="${type}"
                 placeholder="${placeholder}"
                 id="${id}"
@@ -69,7 +69,7 @@ const ColorBox = ({color, index}) => {
             <span 
                 title="Click to copy"
                 data-identity="_pph_copy_color_btn"
-                class="cursor-pointer"
+                class="cursor-pointer text-gray-800 dark:text-white"
                 data-content="${index}"
             >
                 ${ color }
@@ -137,7 +137,7 @@ const ImageBoxForUpload = (layout, index) => {
 
 const Header = () => {
     return `
-        <div class="sticky top-0 bg-red-500 grid grid-cols-6 z-10 border-b border-gray-300 border-opacity-50">
+        <div class="sticky text-white top-0 bg-red-500 grid grid-cols-6 z-10 border-b border-gray-300 border-opacity-50">
             <button
                 id="_pph_move_btn"
                 title="Move Toolbox"
@@ -153,7 +153,7 @@ const Header = () => {
             <button
                 id="_pph_collapse_btn"
                 title="Collapse"
-                class="p-2 flex justify-center text-white border-r border-gray-300 border-opacity-50 hover:bg-white/10 duration-300 bg-white text-red-500"
+                class="p-2 flex justify-center border-r border-gray-300 border-opacity-50 duration-300 bg-white text-red-500"
             >
                 <svg
                     class="w-4 h-4 transform pointer-events-none"
@@ -165,25 +165,25 @@ const Header = () => {
             </button>
             <button
                 id="_pph_image_show_btn"
-                class="p-2 flex justify-center text-white border-r border-gray-300 border-opacity-50 hover:bg-white/10 duration-300"
+                class="p-2 flex justify-center border-r border-gray-300 border-opacity-50 duration-300"
             >
                 <svg class="w-4 h-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="800" height="800" fill="currentColor" viewBox="0 0 52 52" xml:space="preserve"><path d="M51.8 25.1c-1.6-3.2-3.7-6.1-6.3-8.4L37 25.1v.9c0 6.1-4.9 11-11 11h-.9l-5.4 5.4c2 .4 4.1.7 6.2.7 11.3 0 21.1-6.6 25.8-16.1.4-.7.4-1.3.1-1.9zM48.5 5.6l-2.1-2.1c-.6-.6-1.7-.5-2.4.3l-7.3 7.3C33.4 9.7 29.8 9 26 9 14.7 9 4.9 15.6.2 25.1c-.3.6-.3 1.3 0 1.8 2.2 4.5 5.5 8.2 9.6 11l-6 6.1c-.7.7-.8 1.8-.3 2.4l2.1 2.1c.6.6 1.7.5 2.4-.3L48.2 8c.8-.7.9-1.8.3-2.4zM15 26c0-6.1 4.9-11 11-11 2 0 3.8.5 5.4 1.4l-3 3c-.8-.2-1.6-.4-2.4-.4-3.9 0-7 3.1-7 7 0 .8.2 1.6.4 2.4l-3 3C15.5 29.8 15 28 15 26z"/></svg>
             </button>
             <button
                 id="_pph_image_lock_btn"
-                class="p-2 flex justify-center text-white border-r border-gray-300 border-opacity-50 hover:bg-white/10 duration-300"
+                class="p-2 flex justify-center border-r border-gray-300 border-opacity-50 duration-300"
             >
                 <svg class="w-4 h-4 pointer-events-none" width="800" height="800" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3zM9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9V7z"/></svg>
             </button>
             <button
                 id="_pph_image_invert_btn"
-                class="p-2 flex justify-center text-white hover:bg-white/10 duration-300 border-r border-gray-300 border-opacity-50"
+                class="p-2 flex justify-center duration-300 border-r border-gray-300 border-opacity-50"
             >
                 <svg class="w-4 h-4 pointer-events-none" width="800" height="800" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h18v18H3V3zm16 4h-2v2h-2v2h-2v2h-2v2H9v2H7v2h12V7z" fill="currentColor"/></svg>
             </button>
             <button
                 id="_pph_color_picker_btn"
-                class="p-2 flex justify-center text-white hover:bg-white/10 duration-300"
+                class="p-2 flex justify-center duration-300"
             >
                 <svg class="w-4 h-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M224,67.3a35.79,35.79,0,0,0-11.26-25.66c-14-13.28-36.72-12.78-50.62,1.13L138.8,66.2a24,24,0,0,0-33.14.77l-5,5a16,16,0,0,0,0,22.64l2,2.06-51,51a39.75,39.75,0,0,0-10.53,38l-8,18.41A13.68,13.68,0,0,0,36,219.3a15.92,15.92,0,0,0,17.71,3.35L71.23,215a39.89,39.89,0,0,0,37.06-10.75l51-51,2.06,2.06a16,16,0,0,0,22.62,0l5-5a24,24,0,0,0,.74-33.18l23.75-23.87A35.75,35.75,0,0,0,224,67.3ZM97,193a24,24,0,0,1-24,6,8,8,0,0,0-5.55.31l-18.1,7.91L57,189.41a8,8,0,0,0,.25-5.75A23.88,23.88,0,0,1,63,159l51-51,33.94,34Z"></path></svg>
             </button>
@@ -196,7 +196,7 @@ const ColorsHistory = () => {
             id="_pph_color_history_wrapper"
             class="border-b border-opacity-10 pb-4 hidden"
         >
-            <div class="flex justify-between items-center mb-3">
+            <div class="flex justify-between items-center mb-3 text-gray-800 dark:text-white">
                 Colors
                 <button
                     class="text-red-400"

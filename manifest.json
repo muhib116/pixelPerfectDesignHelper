@@ -23,6 +23,8 @@
         {
             "matches": ["<all_urls>"],
             "js": [
+                "tailwindcss.js",
+                "premiumConfig.js", 
                 "userDocumentHandle.js", 
                 "template.js", 
                 "config.js",

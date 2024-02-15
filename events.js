@@ -127,7 +127,6 @@ const makeToolboxDraggable = (layoutData) => {
         layoutData.toolBoxWrapper.style.left = panelCoordinates.left + 'px'
         layoutData.toolBoxWrapper.style.top  = panelCoordinates.top + 'px'
 
-
         // Update the mouseDownPosition for the next move
         panelMouseDownPosition.x = e.clientX
         panelMouseDownPosition.y = e.clientY
