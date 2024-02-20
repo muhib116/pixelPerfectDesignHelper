@@ -26,17 +26,7 @@ const wrapper = `
 `
 const tempDiv = document.createElement('div')
 tempDiv.innerHTML = wrapper
-
-document.body.prepend(tempDiv.firstElementChild)
-
-loadFromLocalStorage()
-runScript()
-// onload data print from localStorage
-renderColor()
-renderCssProperties()
-renderFileUpload()
-printImageInDOM(layoutData)
-makeToolboxDraggable(layoutData)
+const panelWrapperElement = tempDiv.firstElementChild
 
 
 
@@ -67,5 +57,32 @@ const loadOnMounted = () => {
         _handleClass(elements.pph_image_invert_btn, 'remove')
     }
 }
-loadOnMounted()
 // onMounted tab button active highlight end
+
+
+if(chrome.runtime?.onMessage){
+    chrome.runtime.onMessage.addListener((request) => 
+    {
+        loadFromLocalStorage()
+        layoutData.showPanel = !layoutData.showPanel
+
+        if(!layoutData.showPanel && panelWrapperElement){
+            panelWrapperElement.remove()
+        }else{
+            //load all type of script when user click on external icon
+            document.body.prepend(panelWrapperElement)
+
+            runScript()
+            // onload data print from localStorage
+            renderColor()
+            renderCssProperties()
+            renderFileUpload()
+            printImageInDOM(layoutData)
+            makeToolboxDraggable(layoutData)
+    
+            loadOnMounted()
+        }
+        
+        storeInLocalStorage(layoutData)        
+    })
+}

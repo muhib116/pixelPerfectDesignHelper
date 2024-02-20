@@ -141,7 +141,7 @@ const Header = () => {
             <button
                 id="_pph_move_btn"
                 title="Move Toolbox"
-                class="p-2 flex justify-center text-white border-r border-gray-300 border-opacity-50 bg-gray-600 duration-300"
+                class="cursor-move p-2 flex justify-center text-white border-r border-gray-300 border-opacity-50 bg-gray-600 duration-300"
             >
                 <svg
                     class="w-4 h-4 pointer-events-none"

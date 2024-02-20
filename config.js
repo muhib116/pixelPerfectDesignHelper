@@ -15,6 +15,7 @@ const placeholderConfig = {
 }
 
 let layoutData = {
+    showPanel: false,
     toolBoxWrapper: null,
     activeIndex: 0,
     panelCoordinates: {
