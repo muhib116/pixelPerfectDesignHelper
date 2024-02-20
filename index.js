@@ -28,10 +28,8 @@ const tempDiv = document.createElement('div')
 tempDiv.innerHTML = wrapper
 const panelWrapperElement = tempDiv.firstElementChild
 
-
-
 // onMounted tab button active highlight start
-const loadOnMounted = () => {
+const onLoadActionPanelButtonActivation = () => {
     const activeLayoutData = getActiveLayout(layoutData)
 
     const _handleClass = (element, addOrRemove) => {
@@ -60,29 +58,53 @@ const loadOnMounted = () => {
 // onMounted tab button active highlight end
 
 
-if(chrome.runtime?.onMessage){
-    chrome.runtime.onMessage.addListener((request) => 
-    {
-        loadFromLocalStorage()
-        layoutData.showPanel = !layoutData.showPanel
 
-        if(!layoutData.showPanel && panelWrapperElement){
-            panelWrapperElement.remove()
-        }else{
-            //load all type of script when user click on external icon
-            document.body.prepend(panelWrapperElement)
+const loadFirstTime = () => {
+    // If the panel already exists, remove it
+    const existingPanel = document.getElementById('_pph_toolbox');
+    if (existingPanel) {
+        existingPanel.remove();
+    }
 
-            runScript()
-            // onload data print from localStorage
-            renderColor()
-            renderCssProperties()
-            renderFileUpload()
-            printImageInDOM(layoutData)
-            makeToolboxDraggable(layoutData)
-    
-            loadOnMounted()
-        }
-        
-        storeInLocalStorage(layoutData)        
-    })
+    // Prepend the new panel to the body
+    document.body.prepend(panelWrapperElement);
+
+    runScript();
+    // onload data print from localStorage
+    renderColor();
+    renderCssProperties();
+    renderFileUpload();
+    printImageInDOM(layoutData);
+    makeToolboxDraggable(layoutData);
+
+    onLoadActionPanelButtonActivation();
+}
+
+// Load data from local storage
+loadFromLocalStorage();
+
+// Function to handle panel display
+function handlePanelDisplay() {
+    layoutData.showPanel = !layoutData.showPanel;
+
+    // If panel should be shown, load it
+    if (layoutData.showPanel) {
+        loadFirstTime();
+    } else if (panelWrapperElement) {
+        panelWrapperElement.remove();
+    }
+
+    // Store the updated layoutData in local storage
+    storeInLocalStorage(layoutData);
+}
+
+// If panel should be shown initially, load it
+if (layoutData.showPanel) {
+    loadFirstTime();
+}
+
+
+// If chrome.runtime.onMessage exists, add a listener
+if (chrome.runtime?.onMessage) {
+    chrome.runtime.onMessage.addListener((request) => handlePanelDisplay());
 }

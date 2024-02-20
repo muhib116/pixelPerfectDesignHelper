@@ -62,6 +62,11 @@ const handleLayout = (e, layoutData) => {
         },
         _pph_delete_layout_btn: () => {
             if(!confirm('Are you sure?')) return
+            if(layoutData.config.length <= 1){
+                layoutData.config = [{...placeholderConfig}]
+                renderFileUpload()
+                return
+            }
             layoutData.config.splice(content, 1)
             renderFileUpload()
         },
@@ -71,10 +76,27 @@ const handleLayout = (e, layoutData) => {
                 const file = inputField.files[0]
                 const reader = new FileReader()
                 reader.onload = (e) => {
-                    layoutData.config[content].src = e.target.result
-                    renderFileUpload()
-                    printImageInDOM(layoutData)
-                }
+                    const base64Image = e.target.result;
+                    const img = new Image();
+
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        canvas.width = img.naturalWidth;
+                        canvas.height = img.naturalHeight;
+
+                        ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
+                        const newBase64Image = canvas.toDataURL('image/webp', 0.7);
+
+                        layoutData.config[content].src = newBase64Image;
+                        renderFileUpload();
+                        printImageInDOM(layoutData);
+                    };
+
+                    img.src = base64Image;
+                };
                 reader.readAsDataURL(file)
             }
         },

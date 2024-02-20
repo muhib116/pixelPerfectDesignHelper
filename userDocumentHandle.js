@@ -27,9 +27,11 @@ const printImageInDOM = (layoutData) =>
         return
     }
     
-    if(!layoutData.imgElement){
+    if(!layoutData.imgElement && activeLayoutData?.src){
         layoutData.imgElement = document.createElement('img')
     }
+
+    if(!layoutData.imgElement || !activeLayoutData?.src) return
 
     layoutData.imgElement.src = activeLayoutData.src
     layoutData.imgElement.setAttribute('id', '_overlayImage_pixelPerfect')
