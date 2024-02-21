@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Pixel Perfect Design Helper",
+    "name": "PixelPilot (Pixel Perfect Design Helper)",
     "description": "Pixel Perfect Design Helper: Chrome extension overlays UI image on web page for precise design alignment.",
     "version": "1.0",
     "action": {
@@ -23,7 +23,6 @@
         {
             "matches": ["<all_urls>"],
             "js": [
-                "tailwindcss.js",
                 "userDocumentHandle.js", 
                 "template.js", 
                 "config.js",
