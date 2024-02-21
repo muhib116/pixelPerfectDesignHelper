@@ -37,11 +37,6 @@ const handleKeyboardShortCut = (layoutData) => {
         }
         if(e.shiftKey && keyBindings[e.code])
         {
-            if(!isPremium){
-                alert(premiumVersionAlert)
-                return
-            }
-
             keyBindings[e.code]()
             printImageInDOM(layoutData)
             storeInLocalStorage(layoutData)

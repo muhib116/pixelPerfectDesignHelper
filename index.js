@@ -10,6 +10,7 @@ const wrapper = `
             z-index:999999999999999999999999999999;
         "
     >
+        ${AdBanner()}
         ${Header()}
         <div
             id="_pph_body"
@@ -21,7 +22,6 @@ const wrapper = `
             ${ OpacityAndZIndex() }
             ${ FileUpload() }
         </div>
-        ${isPremium ? '' : AdBanner()}
     </div>
 `
 const tempDiv = document.createElement('div')

@@ -7,17 +7,7 @@ const renderColor = () => {
         elements.pph_color_history_wrapper.classList.add('hidden')
     }else{
         elements.pph_color_history_wrapper.classList.remove('hidden')
-        let colorBoxes = activeLayout.colors.map((color, index) => {
-            if(isPremium){
-                return ColorBox({color, index})
-            }
-            
-            if(index < 3){
-                return ColorBox({color, index})
-            }else{
-                return ''
-            }
-        }).join('')
+        let colorBoxes = activeLayout.colors.map((color, index) => ColorBox({color, index})).join('')
         elements.pph_colors_wrapper.innerHTML = colorBoxes
     }
     storeInLocalStorage(layoutData)
@@ -37,8 +27,7 @@ const renderFileUpload = () => {
     renderColor()
     renderCssProperties()
     elements.pph_layouts_wrapper.innerHTML = layoutData.config.map((layout, index) => {
-        return isPremium ? ImageBoxForUpload(layout, index)
-                         : index < 3 ? ImageBoxForUpload(layout, index)  : ''
+        return ImageBoxForUpload(layout, index)
     }).join('')
     storeInLocalStorage(layoutData)
 }

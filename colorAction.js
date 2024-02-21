@@ -23,10 +23,6 @@ const _handleColorDelete = ({index}) =>
     renderColor()
 }
 const _handleColorChange = ({activeLayout, index, element}) => {
-    if(!isPremium){
-        alert(premiumVersionAlert)
-        return
-    }
     element.firstElementChild.oninput = (e) => {
         activeLayout.colors[index] = e.target.value
         element.style.backgroundColor = activeLayout.colors[index]
@@ -48,11 +44,6 @@ const handleColorItem = (e, layoutData) => {
 }
 const handleColorClear = (layoutData) => 
 {
-    if(!isPremium){
-        alert(premiumVersionAlert)
-        return
-    }
-
     if(!confirm('Are you sure you want to clear?')) return
     layoutData.config[layoutData.activeIndex].colors = []
     renderColor()
@@ -60,11 +51,6 @@ const handleColorClear = (layoutData) =>
 const handleColorPicking = async (layoutData) => 
 {
     const activeLayout = getActiveLayout(layoutData)
-    if(!isPremium && activeLayout.colors.length > 2){
-        alert(premiumVersionAlert)
-        return
-    }
-
     if(!activeLayout) {
         alert('Please select a layout.')
         return

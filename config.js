@@ -89,15 +89,7 @@ const runScript = () => {
 
     if(elements.pph_add_layout_btn){
         elements.pph_add_layout_btn.onclick = () => {
-            if(!isPremium){
-                if(layoutData.config.length > 3){
-                    alert(premiumVersionAlert)
-                }else{
-                    layoutData.config.push({...placeholderConfig})
-                }
-            }else{
-                layoutData.config.push({...placeholderConfig})
-            }
+            layoutData.config.push({...placeholderConfig})
             renderFileUpload()
         }
     }
@@ -136,15 +128,7 @@ const runScript = () => {
         handleCssProperty(e, layoutData, 'zIndex')
     }
     elements.pph_add_layout_btn.onclick = () => {
-        if(!isPremium){
-            if(layoutData.config.length > 3){
-                alert(premiumVersionAlert)
-            }else{
-                layoutData.config.push({...placeholderConfig})
-            }
-        }else{
-            layoutData.config.push({...placeholderConfig})
-        }
+        layoutData.config.push({...placeholderConfig})
         renderFileUpload()
     }
     elements.pph_layouts_wrapper.onclick = (e) => {
