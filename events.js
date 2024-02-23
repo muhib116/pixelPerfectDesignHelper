@@ -54,6 +54,11 @@ const handleLayout = (e, layoutData) => {
             if(layoutData.config.length <= 1){
                 layoutData.config = [{...placeholderConfig}]
                 renderFileUpload()
+                // printImageInDOM(layoutData)
+                let overlayImage_pixelPerfect = document.getElementById('_overlayImage_pixelPerfect')
+                if(overlayImage_pixelPerfect){
+                    overlayImage_pixelPerfect.remove()
+                }
                 return
             }
             layoutData.config.splice(content, 1)

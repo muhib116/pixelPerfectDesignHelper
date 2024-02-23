@@ -292,17 +292,6 @@ const FileUpload = () => {
     `
 }
 const Banner = () => {
-    // window.onload = function() {
-    //     setTimeout(function() {
-    //       var ad = document.querySelector("ins.adsbygoogle");
-    //       if(!ad.offsetHeight){
-    //         console.log('ad blocker detected')
-    //       }
-    //     }, 2000);
-    // }
-
-
-    let index = 0
     fetch('https://configurations.devdeeper.com/api/v1/get-banner')
     .then(response => response.json())
     .then(json => {
@@ -314,11 +303,11 @@ const Banner = () => {
                 elements.pph_banner_container.style.display = ''
             }
             
-            
             let index = 0
             let timeoutId
             function setBannerTimeout(json) 
             {
+                if(!elements?.pph_banner_container) return
                 clearTimeout(timeoutId)
                 const currentTime = performance.now()
                 time = currentTime
