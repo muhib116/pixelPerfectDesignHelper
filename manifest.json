@@ -30,6 +30,9 @@
                 "colorAction.js",
                 "index.js",
                 "keyBoardShortCut.js"
+            ],
+            "css": [
+                "popup.css"
             ]
         }
     ]

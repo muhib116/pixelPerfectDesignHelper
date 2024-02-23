@@ -131,8 +131,8 @@ const makeToolboxDraggable = (layoutData) => {
                                         ? (window.innerWidth - toolBoxInfo.width)
                                         : left
         panelCoordinates.top  = top < 0 ? 0 :
-                                    (top + 33) > window.innerHeight
-                                        ? window.innerHeight - 33
+                                    (top + toolBoxInfo.height) > window.innerHeight
+                                        ? (window.innerHeight - toolBoxInfo.height)
                                         : top
         
         layoutData.toolBoxWrapper.style.left = panelCoordinates.left + 'px'

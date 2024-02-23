@@ -1,7 +1,6 @@
-
 const wrapper = `
     <div
-        class="fixed select-none scrollbar draggable shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs border border-red-500"
+        class="_pixelPilotMainWrapper fixed select-none scrollbar draggable shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs border border-red-500"
         id="_pph_toolbox"
         style="
             width: 300px;
@@ -10,7 +9,6 @@ const wrapper = `
             z-index:999999999999999999999999999999;
         "
     >
-        ${AdBanner()}
         ${Header()}
         <div
             id="_pph_body"
@@ -22,14 +20,18 @@ const wrapper = `
             ${ OpacityAndZIndex() }
             ${ FileUpload() }
         </div>
+        ${Banner()}
     </div>
 `
 const tempDiv = document.createElement('div')
 tempDiv.innerHTML = wrapper
 const panelWrapperElement = tempDiv.firstElementChild
 
+loadFromLocalStorage();
+
 // onMounted tab button active highlight start
-const onLoadActionPanelButtonActivation = () => {
+const onLoadActionPanelButtonActivation = () => 
+{
     const activeLayoutData = getActiveLayout(layoutData)
 
     const _handleClass = (element, addOrRemove) => {
@@ -67,7 +69,14 @@ const loadFirstTime = () => {
     }
 
     // Prepend the new panel to the body
-    document.body.prepend(panelWrapperElement);
+    document.body.prepend(panelWrapperElement)
+
+
+    //check if panel left position or top position get negative value then set them to 0
+    if(layoutData.panelCoordinates.left < 0) layoutData.panelCoordinates.left = 30
+    if(layoutData.panelCoordinates.top < 0) layoutData.panelCoordinates.top = 30
+    //check if panel left position or top position get negative value then set them to 0
+
 
     runScript();
     // onload data print from localStorage
@@ -81,7 +90,6 @@ const loadFirstTime = () => {
 }
 
 // Load data from local storage
-loadFromLocalStorage();
 
 // Function to handle panel display
 function handlePanelDisplay() {

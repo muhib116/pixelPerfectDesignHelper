@@ -35,7 +35,7 @@ const handleKeyboardShortCut = (layoutData) => {
                 elements.pph_collapse_btn.classList.toggle('text-red-500')
             },
         }
-        if(e.shiftKey && keyBindings[e.code])
+        if(e.shiftKey && keyBindings[e.code] && layoutData.showPanel)
         {
             keyBindings[e.code]()
             printImageInDOM(layoutData)

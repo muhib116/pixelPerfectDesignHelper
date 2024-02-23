@@ -291,16 +291,54 @@ const FileUpload = () => {
         ></div>
     `
 }
-const AdBanner = () => {
-    fetch('https://jsonplaceholder.typicode.com/photos')
-      .then(response => response.json())
-      .then(json => console.log(json))
+const Banner = () => {
+    // window.onload = function() {
+    //     setTimeout(function() {
+    //       var ad = document.querySelector("ins.adsbygoogle");
+    //       if(!ad.offsetHeight){
+    //         console.log('ad blocker detected')
+    //       }
+    //     }, 2000);
+    // }
+
+
+    let index = 0
+    fetch('https://configurations.devdeeper.com/api/v1/get-banner')
+    .then(response => response.json())
+    .then(json => {
+        if(json.status){
+            if(!json.data.length){
+                elements.pph_banner_container.style.display = 'none'
+                return
+            }else{
+                elements.pph_banner_container.style.display = ''
+            }
+            
+            
+            let index = 0
+            let timeoutId
+            function setBannerTimeout(json) 
+            {
+                clearTimeout(timeoutId)
+                const currentTime = performance.now()
+                time = currentTime
+                index = index + 1 >= json.data.length ? 0 : index + 1
+                elements.pph_banner_container.innerHTML = json.data[index].content
+
+                timeoutId = setTimeout(() => {
+                    setBannerTimeout(json)
+                }, json.data[index-1]?.duration_ms || 5000)
+            }
+
+            // Call the function passing the JSON data
+            setBannerTimeout(json)
+        }
+    })
+
     return `
         <div
-            class="sticky bottom-0 z-10 h-10 bg-red-500 flex items-center justify-center"
+            class="sticky bottom-0 z-10 bg-red-500 flex items-center justify-center"
             id="_pph_banner_container"
-        >
-            Ad Placed Here
-        </div>
+        ></div>
     `
 }
