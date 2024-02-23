@@ -1,20 +1,4 @@
 // basic component start
-const TemplatePreview = {
-    props: ['item', 'isActive'],
-    template: `
-        <div 
-            v-if="item?.src"
-            class="aspect-squire border shadow cursor-pointer bg-white rounded overflow-hidden"
-            :class="isActive ? 'border-red-500' : 'border-black'"
-        >
-            <img
-                class="block w-full"
-                :src="item.src"
-            />
-        </div>
-    `
-}
-
 const Input = (props) => {
     const {
         placeholder,
@@ -124,9 +108,8 @@ const ImageBoxForUpload = (layout, index) => {
                         data-_identity="_pph_image_upload_input"
                         data-content="${index}"
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg, image/png, image/webp"
                         hidden
-                        @change="handleImage($event,item)"
                     />
                 </label>
             </div>

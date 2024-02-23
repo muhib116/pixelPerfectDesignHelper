@@ -15,6 +15,7 @@ const renderColor = () => {
 
 const renderCssProperties = () => {
     const activeLayout = getActiveLayout(layoutData)
+    if(!activeLayout) return
     elements.pph_width_input.value = activeLayout.width
     elements.pph_height_input.value = activeLayout.height
     elements.pph_left_input.value = activeLayout.left
@@ -40,12 +41,39 @@ const handleCssProperty = (e, layoutData, dataKey) => {
     printImageInDOM(layoutData)
 }
 
+
+const handleImageProcess = (file, index) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        const base64Image = e.target.result;
+        const img = new Image();
+
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+
+            ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+
+            const newBase64Image = canvas.toDataURL('image/webp', 0.7);
+
+            layoutData.config[index].src = newBase64Image;
+            renderFileUpload();
+            printImageInDOM(layoutData);
+        };
+
+        img.src = base64Image;
+    };
+    reader.readAsDataURL(file)
+}
 const handleLayout = (e, layoutData) => {
-    const { _identity, content } = e.target.dataset
+    const { _identity, content: index } = e.target.dataset
     if(!_identity) return
     const events = {
         _pph_image_wrapper: () => {
-            layoutData.activeIndex = content
+            layoutData.activeIndex = index
             renderFileUpload()
             printImageInDOM(layoutData)
         },
@@ -54,50 +82,49 @@ const handleLayout = (e, layoutData) => {
             if(layoutData.config.length <= 1){
                 layoutData.config = [{...placeholderConfig}]
                 renderFileUpload()
-                // printImageInDOM(layoutData)
                 let overlayImage_pixelPerfect = document.getElementById('_overlayImage_pixelPerfect')
                 if(overlayImage_pixelPerfect){
                     overlayImage_pixelPerfect.remove()
                 }
                 return
             }
-            layoutData.config.splice(content, 1)
+
+            layoutData.config.splice(index, 1)
+
+            if(layoutData.activeIndex == index){
+                layoutData.activeIndex = (index - 1) < 0 ? 0 : index - 1
+            }
+            
             renderFileUpload()
+            printImageInDOM(layoutData)
         },
         _pph_image_upload_input: () => {
             const inputField = e.target
             inputField.oninput = () => {
                 const file = inputField.files[0]
-                const reader = new FileReader()
-                reader.onload = (e) => {
-                    const base64Image = e.target.result;
-                    const img = new Image();
-
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-
-                        canvas.width = img.naturalWidth;
-                        canvas.height = img.naturalHeight;
-
-                        ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-
-                        const newBase64Image = canvas.toDataURL('image/webp', 0.7);
-
-                        layoutData.config[content].src = newBase64Image;
-                        renderFileUpload();
-                        printImageInDOM(layoutData);
-                    };
-
-                    img.src = base64Image;
-                };
-                reader.readAsDataURL(file)
+                handleImageProcess(file, index)
             }
         },
     }
 
     events[_identity]()
 }
+
+window.addEventListener('paste', (e) => {
+    const files = e.clipboardData.files
+    const lastLayout = layoutData.config[layoutData.config.length - 1]
+
+    if(files.length){
+        [...files].forEach(file => {
+            if(lastLayout && !lastLayout.src){
+                handleImageProcess(files, layoutData.config.length - 1)
+            }else{
+                layoutData.config.push({...placeholderConfig})
+                handleImageProcess(file, layoutData.config.length - 1)
+            }
+        })
+    }
+})
 
 
 const makeToolboxDraggable = (layoutData) => {

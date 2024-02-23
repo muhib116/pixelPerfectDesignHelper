@@ -98,42 +98,9 @@ const runScript = () => {
         elements.pph_toolbox.style.left = layoutData.panelCoordinates.left + 'px'
         elements.pph_toolbox.style.top = layoutData.panelCoordinates.top + 'px'
     }
-    
-    elements.pph_color_picker_btn.onclick = () => {
-        handleColorPicking(layoutData)
-    }
-    elements.pph_colors_clear_btn.onclick = () => {
-        handleColorClear(layoutData)
-    }
-    elements.pph_colors_wrapper.onclick = (e) => {
-        handleColorItem(e, layoutData)
-    }
 
-    elements.pph_width_input.oninput = (e) => {
-        handleCssProperty(e, layoutData, 'width')
-    }
-    elements.pph_height_input.oninput = (e) => {
-        handleCssProperty(e, layoutData, 'height')
-    }
-    elements.pph_left_input.oninput = (e) => {
-        handleCssProperty(e, layoutData, 'left')
-    }
-    elements.pph_top_input.oninput = (e) => {
-        handleCssProperty(e, layoutData, 'top')
-    }
-    elements.pph_opacity_input.oninput = (e) => {
-        handleCssProperty(e, layoutData, 'opacity')
-    }
-    elements.pph_zIndex_input.oninput = (e) => {
-        handleCssProperty(e, layoutData, 'zIndex')
-    }
-    elements.pph_add_layout_btn.onclick = () => {
-        layoutData.config.push({...placeholderConfig})
-        renderFileUpload()
-    }
-    elements.pph_layouts_wrapper.onclick = (e) => {
-        handleLayout(e, layoutData)
-    }
+
+    // header buttons
     elements.pph_collapse_btn.onclick = (e) => {
         const currentElem = e.target
         currentElem.classList.toggle('bg-white')
@@ -166,4 +133,45 @@ const runScript = () => {
         printImageInDOM(layoutData)
         storeInLocalStorage(layoutData)
     }
+    // header buttons end
+    
+    // color management start
+    elements.pph_color_picker_btn.onclick = () => {
+        handleColorPicking(layoutData)
+    }
+    elements.pph_colors_clear_btn.onclick = () => {
+        handleColorClear(layoutData)
+    }
+    elements.pph_colors_wrapper.onclick = (e) => {
+        handleColorItem(e, layoutData)
+    }
+    // color management end
+
+
+    elements.pph_width_input.oninput = (e) => {
+        handleCssProperty(e, layoutData, 'width')
+    }
+    elements.pph_height_input.oninput = (e) => {
+        handleCssProperty(e, layoutData, 'height')
+    }
+    elements.pph_left_input.oninput = (e) => {
+        handleCssProperty(e, layoutData, 'left')
+    }
+    elements.pph_top_input.oninput = (e) => {
+        handleCssProperty(e, layoutData, 'top')
+    }
+    elements.pph_opacity_input.oninput = (e) => {
+        handleCssProperty(e, layoutData, 'opacity')
+    }
+    elements.pph_zIndex_input.oninput = (e) => {
+        handleCssProperty(e, layoutData, 'zIndex')
+    }
+    elements.pph_add_layout_btn.onclick = () => {
+        layoutData.config.push({...placeholderConfig})
+        renderFileUpload()
+    }
+    elements.pph_layouts_wrapper.onclick = (e) => {
+        handleLayout(e, layoutData)
+    }
+    
 }
