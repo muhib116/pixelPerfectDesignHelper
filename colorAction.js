@@ -23,6 +23,7 @@ const _handleColorDelete = ({index}) =>
     renderColor()
 }
 const _handleColorChange = ({activeLayout, index, element}) => {
+    console.log(element.firstElementChild, 'working')
     element.firstElementChild.oninput = (e) => {
         activeLayout.colors[index] = e.target.value
         element.style.backgroundColor = activeLayout.colors[index]
@@ -39,7 +40,6 @@ const handleColorItem = (e, layoutData) => {
         _pph_copy_color_btn: _handleColorCopy,
         _pph_color_picker: _handleColorChange
     }
-
     fnRegistry[identity] && fnRegistry[identity]({activeLayout, index, element: e.target})
 }
 const handleColorClear = (layoutData) => 

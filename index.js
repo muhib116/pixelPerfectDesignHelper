@@ -1,12 +1,17 @@
 const wrapper = `
+<div 
+    class="_pixelPilotMainWrapper draggable"
+    style="
+        z-index:999999999999999999999999999999;
+    "
+>
     <div
-        class="_pixelPilotMainWrapper fixed select-none scrollbar draggable shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs border border-red-500"
+        class="scrollbar shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs border border-red-500"
         id="_pph_toolbox"
         style="
             width: 300px;
             max-height: 400px;
             overflow-y: auto;
-            z-index:999999999999999999999999999999;
         "
     >
         ${Header()}
@@ -22,12 +27,13 @@ const wrapper = `
         </div>
         ${Banner()}
     </div>
+</div>
 `
 const tempDiv = document.createElement('div')
 tempDiv.innerHTML = wrapper
 const panelWrapperElement = tempDiv.firstElementChild
 
-loadFromLocalStorage();
+loadFromLocalStorage()
 
 // onMounted tab button active highlight start
 const onLoadActionPanelButtonActivation = () => 

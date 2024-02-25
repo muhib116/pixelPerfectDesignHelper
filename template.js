@@ -46,8 +46,8 @@ const ColorBox = ({color, index}) => {
             >
                 <input 
                     type="color" 
-                    hidden 
-                    value="${color}" class="pointer-events-none"
+                    class="opacity-0 pointer-events-none" 
+                    value="${color}"
                 />
             </label>
             <span 
@@ -251,9 +251,9 @@ const OpacityAndZIndex = () => {
             id:"_pph_opacity_input",
         })}
         ${Input({
-            placeholder:"ZIndex",
+            placeholder:"z-index",
             type:"number",
-            label:"ZIndex",
+            label:"z-index",
             id:"_pph_zIndex_input",
         })}
     </div>
@@ -278,7 +278,7 @@ const Banner = () => {
     fetch('https://configurations.devdeeper.com/api/v1/get-banner')
     .then(response => response.json())
     .then(json => {
-        if(json.status){
+        if(json.status && elements?.pph_banner_container){
             if(!json.data.length){
                 elements.pph_banner_container.style.display = 'none'
                 return

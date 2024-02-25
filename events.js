@@ -92,7 +92,6 @@ const handleLayout = (e, layoutData) => {
             layoutData.config.splice(index, 1)
 
             if(layoutData.activeIndex == index){
-                layoutData.activeIndex = (index - 1) < 0 ? 0 : index - 1
             }
             
             renderFileUpload()
