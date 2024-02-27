@@ -1,6 +1,5 @@
 const storageKey = '_pixelPerfectLayoutData'
 const placeholderConfig = {
-    imgElement: null,
     src: null,
     width: null,
     height: null,
@@ -22,9 +21,7 @@ let layoutData = {
         left: 200,
         top: 200
     },
-    imgElement: null,
     config: [{
-        imgElement: null,
         src: null,
         width: null,
         height: null,
@@ -95,8 +92,8 @@ const runScript = () => {
     }
 
     if(elements.pph_toolbox){
-        elements.pph_toolbox.style.left = layoutData.panelCoordinates.left + 'px'
-        elements.pph_toolbox.style.top = layoutData.panelCoordinates.top + 'px'
+        elements.pph_toolbox.closest('._pixelPilotMainWrapper').style.left = layoutData.panelCoordinates.left + 'px'
+        elements.pph_toolbox.closest('._pixelPilotMainWrapper').style.top = layoutData.panelCoordinates.top + 'px'
     }
 
 

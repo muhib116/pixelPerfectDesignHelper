@@ -7,7 +7,9 @@
     border-radius: 4px;
     user-select: none;
 }
-
+._pph_body::-webkit-scrollbar {
+    width: 0px;
+}
 ._pixelPilotMainWrapper .colorBoxClose {
     display: none;
 }

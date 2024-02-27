@@ -71,6 +71,13 @@ const handleImageProcess = (file, index) => {
 const handleLayout = (e, layoutData) => {
     const { _identity, content: index } = e.target.dataset
     if(!_identity) return
+
+    const removeOverlayImage = () => {
+        let overlayImage_pixelPerfect = document.getElementById('_overlayImage_pixelPerfect')
+        if(overlayImage_pixelPerfect){
+            overlayImage_pixelPerfect.remove()
+        }
+    }
     const events = {
         _pph_image_wrapper: () => {
             layoutData.activeIndex = index
@@ -78,22 +85,24 @@ const handleLayout = (e, layoutData) => {
             printImageInDOM(layoutData)
         },
         _pph_delete_layout_btn: () => {
-            if(!confirm('Are you sure?')) return
-            if(layoutData.config.length <= 1){
-                layoutData.config = [{...placeholderConfig}]
-                renderFileUpload()
-                let overlayImage_pixelPerfect = document.getElementById('_overlayImage_pixelPerfect')
-                if(overlayImage_pixelPerfect){
-                    overlayImage_pixelPerfect.remove()
-                }
-                return
-            }
+            if (!window.confirm('Are you sure?')) return
 
             layoutData.config.splice(index, 1)
 
-            if(layoutData.activeIndex == index){
+            if (layoutData.activeIndex == index)
+            {
+                const lowerActiveIndex = layoutData.activeIndex - 1
+                const upperActiveIndex = layoutData.activeIndex + 1
+                if (lowerActiveIndex >= 0) {
+                    layoutData.activeIndex = lowerActiveIndex
+                } else if (upperActiveIndex < layoutData.config.length) {
+                    layoutData.activeIndex = upperActiveIndex
+                } else {
+                    layoutData.activeIndex = 0
+                }
+                removeOverlayImage()
             }
-            
+
             renderFileUpload()
             printImageInDOM(layoutData)
         },
@@ -103,7 +112,7 @@ const handleLayout = (e, layoutData) => {
                 const file = inputField.files[0]
                 handleImageProcess(file, index)
             }
-        },
+        }
     }
 
     events[_identity]()

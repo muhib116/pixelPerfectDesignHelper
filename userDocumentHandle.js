@@ -2,8 +2,8 @@
 const _imageStyleAdd = (imgElement, activeLayoutData) => {
     if(!imgElement) return
     imgElement.style.cssText = `
-        width: ${activeLayoutData.width}px;
-        height: ${activeLayoutData.height}px;
+        width: ${isNaN(+activeLayoutData.width) ? activeLayoutData.width : activeLayoutData.width + 'px'};
+        height: ${isNaN(+activeLayoutData.height) ? activeLayoutData.height : activeLayoutData.height + 'px'};
         left: ${activeLayoutData.left}px;
         top: ${activeLayoutData.top}px;
         opacity: ${activeLayoutData.opacity};
@@ -39,7 +39,8 @@ const printImageInDOM = (layoutData) =>
     document.body.appendChild(layoutData.imgElement)
 
     _imageStyleAdd(layoutData.imgElement, activeLayoutData)
-    
+    storeInLocalStorage(layoutData)
+
     let isMouseDown = false
     let mouseDownPosition = { x: 0, y: 0}
     let distance = { x: 0, y: 0 }

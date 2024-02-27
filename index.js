@@ -1,23 +1,25 @@
 const wrapper = `
 <div 
-    class="_pixelPilotMainWrapper draggable"
+    class="_pixelPilotMainWrapper draggable shadow"
     style="
         z-index:999999999999999999999999999999;
+        width: 300px;
+        overflow: hidden;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     "
 >
     <div
-        class="scrollbar shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs border border-red-500"
+        class="scrollbar shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs"
         id="_pph_toolbox"
-        style="
-            width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
-        "
     >
         ${Header()}
         <div
             id="_pph_body"
             class="text-white p-4 grid gap-2"
+            style="
+                max-height: 330px;
+                overflow-y: auto;
+            "
         >
             ${ ColorsHistory() }
             ${ WidthHeight() }
@@ -45,19 +47,19 @@ const onLoadActionPanelButtonActivation = () =>
         element.classList[addOrRemove]('text-red-500')
     }
 
-    if(activeLayoutData.isShow){
+    if(activeLayoutData && activeLayoutData?.isShow){
         _handleClass(elements.pph_image_show_btn, 'remove')
     }else {
         _handleClass(elements.pph_image_show_btn, 'add')
     }
 
-    if(activeLayoutData.isLock){
+    if(activeLayoutData?.isLock){
         _handleClass(elements.pph_image_lock_btn, 'add')
     }else{
         _handleClass(elements.pph_image_lock_btn, 'remove')
     }
 
-    if(activeLayoutData.invertImage){
+    if(activeLayoutData?.invertImage){
         _handleClass(elements.pph_image_invert_btn, 'add')
     }else{
         _handleClass(elements.pph_image_invert_btn, 'remove')
@@ -100,6 +102,10 @@ const loadFirstTime = () => {
 // Function to handle panel display
 function handlePanelDisplay() {
     layoutData.showPanel = !layoutData.showPanel;
+    let overLayImgElement = document.getElementById('_overlayImage_pixelPerfect')
+    if(!layoutData.showPanel && overLayImgElement){
+        overLayImgElement.remove()
+    }
 
     // If panel should be shown, load it
     if (layoutData.showPanel) {

@@ -55,8 +55,12 @@ const handleColorPicking = async (layoutData) =>
         alert('Please select a layout.')
         return
     }
-    const eyeDropper = new EyeDropper()
-    const { sRGBHex } = await eyeDropper.open()
-    activeLayout.colors.unshift(sRGBHex)
-    renderColor()
+    try {
+        const eyeDropper = new EyeDropper()
+        const { sRGBHex } = await eyeDropper.open()
+        activeLayout.colors.unshift(sRGBHex)
+        renderColor()
+    } catch (e) {
+        console.warn(e)
+    }
 }
