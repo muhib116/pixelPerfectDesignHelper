@@ -9,13 +9,13 @@ const wrapper = `
     "
 >
     <div
-        class="scrollbar shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs"
+        class="_pp_scrollbar shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded text-xs"
         id="_pph_toolbox"
     >
         ${Header()}
         <div
             id="_pph_body"
-            class="text-white p-4 grid gap-2"
+            class="text-white p-4 _pp_grid gap-2"
             style="
                 max-height: 330px;
                 overflow-y: auto;

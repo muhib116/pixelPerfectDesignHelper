@@ -36,7 +36,7 @@ const Input = (props) => {
 const ColorBox = ({color, index}) => {
     return`
         <div
-            class="colorBox flex gap-1 items-center relative"
+            class="_pp_colorBox flex gap-1 items-center relative"
             style="font-size: 12px"
         >
             <span
@@ -67,7 +67,7 @@ const ColorBox = ({color, index}) => {
             </span>
             <button
                 title="Click to delete"
-                class="absolute colorBoxClose right-0 w-4 h-4 bg-red-500 text-white rounded-full"
+                class="absolute _pp_colorBoxClose right-0 w-4 h-4 bg-red-500 text-white rounded-full"
                 style="padding-left: 2px; padding-top: 0px;"
                 data-identity="_pph_color_delete_btn"
                 data-content="${index}"
