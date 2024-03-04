@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "PixelPilot (Pixel Perfect Design Helper)",
     "description": "Pixel Pilot acts as a meticulous design assistant, guaranteeing pixel-perfect precision.",
-    "version": "1.2",
+    "version": "2.0",
     "action": {
         "default_icon": {
             "16":"icons/16.png",
