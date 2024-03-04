@@ -61,6 +61,7 @@ const getElementsById = () => ({
     pph_image_lock_btn: _id("_pph_image_lock_btn"),
     pph_image_invert_btn: _id("_pph_image_invert_btn"),
     pph_body: _id("_pph_body"),
+    pp_generateColors: _id("_pp_generateColors"),
     
     pph_color_picker_btn: _id("_pph_color_picker_btn"),
     pph_color_history_wrapper: _id('_pph_color_history_wrapper'),
@@ -135,6 +136,9 @@ const runScript = () => {
     // color management start
     elements.pph_color_picker_btn.onclick = () => {
         handleColorPicking(layoutData)
+    }
+    elements.pp_generateColors.onclick = () => {
+        handleColorGenerating(layoutData)
     }
     elements.pph_colors_clear_btn.onclick = () => {
         handleColorClear(layoutData)

@@ -3,7 +3,7 @@ const getActiveLayout = (layoutData) => layoutData.config[layoutData.activeIndex
 const renderColor = () => {
     const activeLayout = getActiveLayout(layoutData)
 
-    if(!activeLayout || !activeLayout.colors.length) {
+    if(!activeLayout || !activeLayout.colors?.length) {
         elements.pph_color_history_wrapper.classList.add('hidden')
     }else{
         elements.pph_color_history_wrapper.classList.remove('hidden')

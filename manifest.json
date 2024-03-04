@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "PixelPilot (Pixel Perfect Design Helper)",
-    "description": "Pixel Pilot acts as a meticulous design assistant, guaranteeing pixel-perfect precision. This Chrome extension seamlessly overlays UI images onto web pages, simplifying the process of achieving precise alignment during design endeavors.",
+    "description": "Pixel Pilot acts as a meticulous design assistant, guaranteeing pixel-perfect precision.",
     "version": "1.2",
     "action": {
         "default_icon": {
@@ -27,6 +27,8 @@
                 "template.js", 
                 "config.js",
                 "events.js",
+                "colorPaletteHelper.js",
+                "colorPalette.js",
                 "colorAction.js",
                 "index.js",
                 "keyBoardShortCut.js"

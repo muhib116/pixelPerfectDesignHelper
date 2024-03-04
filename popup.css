@@ -13,6 +13,24 @@
 ._pixelPilotMainWrapper ._pp_colorBoxClose {
     display: none;
 }
+._pixelPilotMainWrapper .getColorsFromLayoutBtn {
+    display: block;
+    width: 100%;
+    padding: 2px;
+    background-color: #0078ff !important;
+    margin-top: 6px;
+    font-size: 12px;
+    border-radius: 2px;
+    transition: 0.3s;
+    position: relative;
+}
+._pixelPilotMainWrapper .getColorsFromLayoutBtn:hover {
+    color: #0078ff;
+    background: white !important;
+}
+._pixelPilotMainWrapper .getColorsFromLayoutBtn.loading{
+    pointer-events: none;
+}
 
 ._pixelPilotMainWrapper ._pp_colorBox:hover ._pp_colorBoxClose {
     display: block;

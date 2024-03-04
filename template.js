@@ -81,8 +81,7 @@ const ImageBoxForUpload = (layout, index) => {
     return `
         <div
             class="
-                relative bg-white border-2 rounded aspect-square cursor-pointer 
-                ${index == layoutData.activeIndex ? 'border-red-500' : 'border-gray-200'}
+                relative bg-white rounded aspect-square cursor-pointer 
             "
             style="height: 83px;"
             data-content="${index}"
@@ -97,7 +96,10 @@ const ImageBoxForUpload = (layout, index) => {
             </button>
 
             <div 
-                class="border h-full overflow-hidden flex items-center justify-center cursor-pointer relative pointer-events-none"
+                class="
+                    border-2 rounded h-full overflow-hidden flex items-center justify-center cursor-pointer relative pointer-events-none
+                    ${index == layoutData.activeIndex ? 'border-red-500' : 'border-gray-200'}
+                "
             >
                 <img
                     src="${layout.src}"
@@ -127,7 +129,7 @@ const ImageBoxForUpload = (layout, index) => {
 
 const Header = () => {
     return `
-        <div class="sticky text-white top-0 bg-red-500 grid grid-cols-6 z-10 border-b border-gray-300 border-opacity-50">
+        <div class="sticky text-white top-0 bg-red-500 _pp_grid grid-cols-6 z-10 border-b border-gray-300 border-opacity-50">
             <button
                 id="_pph_move_btn"
                 title="Move Toolbox"
@@ -186,6 +188,9 @@ const Header = () => {
 }
 const ColorsHistory = () => {
     return `
+        <button id="_pp_generateColors" class="getColorsFromLayoutBtn shadow">
+            Generate Colors
+        </button>
         <div
             id="_pph_color_history_wrapper"
             class="border-b border-opacity-10 pb-4 hidden"
@@ -201,7 +206,7 @@ const ColorsHistory = () => {
             </div>
             <div
                 id="_pph_colors_wrapper"
-                class="grid grid-cols-3 text-white text-opacity-70 gap-2"
+                class="_pp_grid grid-cols-3 text-white text-opacity-70 gap-2"
             ></div>
         </div>
     `
@@ -209,7 +214,7 @@ const ColorsHistory = () => {
 const WidthHeight = () => {
     return `
         <div
-            class="grid grid-cols-2 gap-3 bg-green"
+            class="_pp_grid grid-cols-2 gap-3 bg-green"
         >
             ${Input({
                 placeholder:"Width",
@@ -231,7 +236,7 @@ const WidthHeight = () => {
 const Position = () => {
     return `
         <div
-            class="grid grid-cols-2 gap-3 bg-green"
+            class="_pp_grid grid-cols-2 gap-3 bg-green"
         >
             ${Input({
                 placeholder:"Left",
@@ -251,7 +256,7 @@ const Position = () => {
 const OpacityAndZIndex = () => {
     return `
     <div
-        class="grid grid-cols-2 gap-3 bg-green"
+        class="_pp_grid grid-cols-2 gap-3 bg-green"
     >
         ${Input({
             placeholder:"Opacity",
@@ -279,7 +284,7 @@ const FileUpload = () => {
             Add Layout +
         </button>
         <div 
-            class="grid grid-cols-3 w-full gap-2 mt-4"
+            class="_pp_grid grid-cols-3 w-full gap-2 mt-4"
             :class="layoutData.config.length ? 'grid-cols-3' : ''"
             id="_pph_layouts_wrapper"
         ></div>

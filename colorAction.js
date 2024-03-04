@@ -1,3 +1,16 @@
+const handleColorGenerating = (layoutData) => {
+    const activeLayout = getActiveLayout(layoutData)
+    if(!activeLayout.src) {
+        alert('Please select a layout, that has image. or upload a new image')
+        return
+    }
+    if(!confirm("Are you certain you wish to generate new colors? \nThis process will remove your existing colors.")) return
+    generateColors(activeLayout, () => {
+        storeInLocalStorage(layoutData)
+        renderColor()
+    })
+}
+
 const _handleColorCopy = ({activeLayout, index}) => {
     if(!activeLayout) {
         alert('Please select a layout, that has image. or upload a new image')
@@ -23,7 +36,6 @@ const _handleColorDelete = ({index}) =>
     renderColor()
 }
 const _handleColorChange = ({activeLayout, index, element}) => {
-    console.log(element.firstElementChild, 'working')
     element.firstElementChild.oninput = (e) => {
         activeLayout.colors[index] = e.target.value
         element.style.backgroundColor = activeLayout.colors[index]
