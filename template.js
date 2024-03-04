@@ -280,6 +280,7 @@ const FileUpload = () => {
         <button
             class="bg-red-500 text-white rounded py-1 mt-2"
             id="_pph_add_layout_btn"
+            style="display: block; width: 100%; text-align: center;"
         >
             Add Layout +
         </button>

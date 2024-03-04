@@ -15,7 +15,7 @@ const wrapper = `
         ${Header()}
         <div
             id="_pph_body"
-            class="text-white p-4 _pp_grid gap-2"
+            class="_pp_scrollbar text-white p-4 _pp_grid gap-2"
             style="
                 max-height: 330px;
                 overflow-y: auto;
