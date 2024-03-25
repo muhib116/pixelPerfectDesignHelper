@@ -292,37 +292,39 @@ const FileUpload = () => {
     `
 }
 const Banner = () => {
-    fetch('https://configurations.devdeeper.com/api/v1/get-banner')
-    .then(response => response.json())
-    .then(json => {
-        if(json.status && elements?.pph_banner_container){
-            if(!json.data.length){
-                elements.pph_banner_container.style.display = 'none'
-                return
-            }else{
-                elements.pph_banner_container.style.display = ''
-            }
-            
-            let index = 0
-            let timeoutId
-            function setBannerTimeout(json) 
-            {
-                if(!elements?.pph_banner_container) return
-                clearTimeout(timeoutId)
-                const currentTime = performance.now()
-                time = currentTime
-                index = index + 1 >= json.data.length ? 0 : index + 1
-                elements.pph_banner_container.innerHTML = json.data[index].content
+    // try {
+    //     fetch('https://configurations.devdeeper.com/api/v1/get-banner')
+    //     .then(response => response.json())
+    //     .then(json => {
+    //         if(json.status && elements?.pph_banner_container){
+    //             if(!json.data.length){
+    //                 elements.pph_banner_container.style.display = 'none'
+    //                 return
+    //             }else{
+    //                 elements.pph_banner_container.style.display = ''
+    //             }
+                
+    //             let index = 0
+    //             let timeoutId
+    //             function setBannerTimeout(json) 
+    //             {
+    //                 if(!elements?.pph_banner_container) return
+    //                 clearTimeout(timeoutId)
+    //                 const currentTime = performance.now()
+    //                 time = currentTime
+    //                 index = index + 1 >= json.data.length ? 0 : index + 1
+    //                 elements.pph_banner_container.innerHTML = json.data[index].content
 
-                timeoutId = setTimeout(() => {
-                    setBannerTimeout(json)
-                }, json.data[index-1]?.duration_ms || 5000)
-            }
+    //                 timeoutId = setTimeout(() => {
+    //                     setBannerTimeout(json)
+    //                 }, json.data[index-1]?.duration_ms || 5000)
+    //             }
 
-            // Call the function passing the JSON data
-            setBannerTimeout(json)
-        }
-    })
+    //             // Call the function passing the JSON data
+    //             setBannerTimeout(json)
+    //         }
+    //     })
+    // }
 
     return `
         <div
